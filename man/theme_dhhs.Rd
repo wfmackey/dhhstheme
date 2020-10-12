@@ -5,20 +5,14 @@
 \title{A ggplot2 theme consistent with DHHS style.}
 \usage{
 theme_dhhs(
-  base_size = 18,
-  base_family = "sans",
-  base_line_size = points_to_mm(0.75),
-  base_rect_size = points_to_mm(1),
+  base_size = 14,
   background = "white",
   legend = "none",
   panel_borders = FALSE
 )
 }
 \arguments{
-\item{base_size}{Size for text elements. Defaults to 18.}
-
-\item{base_family}{Font family for text elements. Defaults to "sans",
-indistinguishable from Arial.}
+\item{base_size}{Size for text elements. Defaults to 14.}
 
 \item{background}{"white" by default. Set to "transparent" or a different
 DHHS colour.}

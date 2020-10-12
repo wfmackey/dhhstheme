@@ -5,13 +5,15 @@ Version: 0.0.0.9
 Authors@R: c(
     person(given = "Will", family = "Mackey", email = "william.mackey@grattaninstitute.edu.au",
                 role = c("aut", "cre")),
-    person("Matt", "Cowgill", email = "matthew.cowgill@grattaninstitute.edu.au", 
+    person(given = "Matt", family = "Cowgill",
                 role = "aut"))
 Description: Enables the user to create ggplot2 charts in the style of the Department of Health and Human Services in Australia.
 License: GPL-3
 Depends: R (>= 3.5.0)
 Imports:
     ggplot2 (>= 3.3.0),
+    purrr,
+    dplyr,
     knitr,
     patchwork (>= 1.0.0),
     stringr,

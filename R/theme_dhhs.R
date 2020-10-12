@@ -1,8 +1,6 @@
 #' A ggplot2 theme consistent with DHHS style.
 #' @name theme_dhhs
-#' @param base_size Size for text elements. Defaults to 18.
-#' @param base_family Font family for text elements. Defaults to "sans",
-#'   indistinguishable from Arial.
+#' @param base_size Size for text elements. Defaults to 14.
 #' @param background "white" by default. Set to "transparent" or a different
 #' DHHS colour.
 #' @param legend "off" by default. Set to "bottom", "left", "right" or "top" as
@@ -14,8 +12,7 @@
 #' @export
 
 
-theme_dhhs <- function(base_size = 18,
-                       base_family = "sans",
+theme_dhhs <- function(base_size = 14,
                        background = "white",
                        legend = "none",
                        panel_borders = FALSE) {
@@ -23,15 +20,16 @@ theme_dhhs <- function(base_size = 18,
   # address global variable warning
   '%+replace%' <- ggplot2::'%+replace%'
 
-
   half_line <- base_size / 2
 
   dark_grey <- dhhstheme::dhhs_greyscale
   light_grey <- dhhstheme::dhhs_greyscale1
   title_colour <- dhhstheme::dhhs_navy
 
+  # Settings
   base_line_size <- points_to_mm(0.75)
   base_rect_size <- points_to_mm(1)
+  base_family = "sans"
 
   ret <-
     ggplot2::theme(
@@ -184,7 +182,8 @@ theme_dhhs <- function(base_size = 18,
         vjust = 0.5
       ),
       plot.tag.position = "topleft",
-      plot.margin = ggplot2::unit(c(0.5, 0.6, 0.1, 0.01), "lines"),
+      # plot margin: top, right, bottom, left
+      plot.margin = ggplot2::unit(c(0.5, 0, 0.1, 0), "lines"),
       complete = TRUE
     )
 
@@ -209,4 +208,3 @@ theme_dhhs <- function(base_size = 18,
   ret
 
 }
-
