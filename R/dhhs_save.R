@@ -21,6 +21,7 @@
 #' }
 #' Set type = "all" to save your chart in all available sizes.
 #' @param drop_labs Drops title, subtitle and caption. FALSE by default. Useful if you want to write your own in your export destination.
+#' @param mute_messages Do not display saving messages.
 #' @param ... Other arguments passed to ggsave
 #'
 #' @importFrom dplyr
@@ -29,30 +30,17 @@
 dhhs_save <- function(file_path,
                       plot_object = ggplot2::last_plot(),
                       type = "whole",
-                      drop_labs = FALSE) {
+                      drop_labs = FALSE,
+                      mute_messages = FALSE) {
 
   chart_dir <- dirname(file_path)
   chart_name <- gsub("\\..*", "", basename(file_path))
   chart_ext <- gsub(chart_name, "", basename(file_path))
 
-  inch_constant <- 0.393701
-
-  all_chart_types <- tidyr::tribble(
-    ~type, ~height_cm, ~width_cm,
-    "whole", 18.9, 32.74,
-    "half", 18.9, 15.65,
-    "third", 18.9, 10,
-    "short", 9.5,  32.74,
-    "short-half", 9.5, 15.65,
-    "short-third", 9.5, 10,
-  )
-
-  all_chart_types <- dplyr::mutate(all_chart_types,
-      height = height_cm * inch_constant,
-      width = width_cm * inch_constant)
+  all_chart_types <- dhhstheme::all_chart_types
 
   if (type == "all") {
-    message("Saving all types in ", file.path(chart_dir, chart_name))
+    if (!mute_messages) message("Saving all types in ", file.path(chart_dir, chart_name))
     chart_types <- all_chart_types
   } else {
     chart_types <- all_chart_types[all_chart_types$type %in% type, ]
@@ -78,7 +66,7 @@ dhhs_save <- function(file_path,
 
   if (isTRUE(drop_labs)) {
 
-    message("Removing title, subtitle and caption because drop_labs = TRUE")
+    if (!mute_messages) message("Removing title, subtitle and caption because drop_labs = TRUE")
 
     plot_object <- plot_object +
       ggplot2::theme(
@@ -93,14 +81,18 @@ dhhs_save <- function(file_path,
     list(chart_types$path,
          chart_types$height,
          chart_types$width),
-    dhhs_save_one
+    dhhs_save_one,
+    .plot_object = plot_object,
+    .mute_messages = mute_messages
   )
 
 }
 
-dhhs_save_one <- function(path, height, width, .plot_object = plot_object) {
+dhhs_save_one <- function(path, height, width,
+                          .plot_object = plot_object,
+                          .mute_messages = mute_messages) {
 
-  message("\t- saving ", path)
+  if (!.mute_messages) message("\t- saving ", path)
 
   ggplot2::ggsave(filename = path,
                   plot = .plot_object,
