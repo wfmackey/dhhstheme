@@ -1,0 +1,25 @@
+Package: dhhstheme
+Type: Package
+Title: Create Graphs in the DHHS Style
+Version: 0.0.0.9
+Authors@R: c(
+    person(given = "Will", family = "Mackey", email = "william.mackey@grattaninstitute.edu.au",
+                role = c("aut", "cre")),
+    person("Matt", "Cowgill", email = "matthew.cowgill@grattaninstitute.edu.au", 
+                role = "aut"))
+Description: Enables the user to create ggplot2 charts in the style of the Department of Health and Human Services in Australia.
+License: GPL-3
+Depends: R (>= 3.5.0)
+Imports:
+    ggplot2 (>= 3.3.0),
+    knitr,
+    patchwork (>= 1.0.0),
+    stringr,
+    rstudioapi,
+    utils
+VignetteBuilder: knitr
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.1.1
+Suggests: 
+    testthat (>= 2.1.0)

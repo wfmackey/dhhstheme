@@ -1,0 +1,208 @@
+#' Create a DHHS-appropriate palette for your chart.
+#'
+#' @param n Numeric. The number of levels in your colour scale. Minimum value is
+#'   1, maximum is 10. Using more than 6 is not recommended. If you don't
+#'   specify `n`, a five-colour palette will be used, which may not look right.
+#'   Specify `n`.
+#'
+#'   By default, n = 2 will give you teal and red.
+#' @param reverse Logical. FALSE by default. Setting to TRUE reverses the
+#'   standard colour order. Standard colour order runs from light to dark. If
+#'   you set reverse to TRUE, colours will run from dark to light.
+#' @param faded Logical. FALSE by default. Setting to TRUE returns the faded
+#'   variations of the standard colours.
+#'
+#' @examples
+#' library(ggplot2)
+#'
+#' p <- ggplot(mtcars, aes(x = wt, y = mpg, col = factor(cyl))) +
+#'     geom_point() +
+#'     theme_dhhs() +
+#'     scale_colour_manual(values = dhhs_pal(n = 3))
+#'
+#' p
+#'
+#' # Alternatively, use dhhs_colour_manual(), which is a wrapper
+#' # around scale_colour_manual():
+#'
+#' p <- ggplot(mtcars, aes(x = wt, y = mpg, col = factor(cyl))) +
+#'     geom_point() +
+#'     theme_dhhs() +
+#'     dhhs_colour_manual(n = 3)
+#'
+#' p
+#'
+#' @export
+
+dhhs_pal <- function(n = 0, reverse = FALSE, faded = FALSE) {
+
+  if (n == 0) {
+    n <- 5
+    "Your chart will probably look better if you specify n in dhhs_pal().\n Choosing default 5."
+  }
+
+  if (n > 6 & n <= 10) {
+    warning("Using more than six colours is not recommended.")
+  }
+
+  if (n > 10 & n != "2a") {
+    stop(paste0("You've requested ", n,
+                " colours; dhhs_pal() only supports up to 10."))
+  }
+
+  if (isFALSE(faded)) {
+    palette <- regular_palette(n)
+  }
+
+  if (isTRUE(faded)) {
+    palette <- faded_palette(n)
+  }
+
+  if (isTRUE(reverse)) {
+    palette <- rev(palette)
+  }
+
+  palette
+}
+
+regular_palette <- function(n) {
+
+  if (n == 1) {
+    palette <- dhhstheme::dhhs_teal
+  } else if (n == 2) {
+    palette <- c(dhhstheme::dhhs_teal,
+                 dhhstheme::dhhs_pink)
+  } else if (n == 3) {
+    palette <- c(dhhstheme::dhhs_purple,
+                 dhhstheme::dhhs_teal,
+                 dhhstheme::dhhs_pink)
+  } else if (n == 4) {
+    palette <- c(dhhstheme::dhhs_purple,
+                 dhhstheme::dhhs_teal,
+                 dhhstheme::dhhs_pink,
+                 dhhstheme::dhhs_blue)
+  } else if (n == 5) {
+    palette <- c(dhhstheme::dhhs_purple,
+                 dhhstheme::dhhs_teal,
+                 dhhstheme::dhhs_pink,
+                 dhhstheme::dhhs_blue,
+                 dhhstheme::dhhs_navy)
+  } else if (n == 6) {
+    palette <- c(dhhstheme::dhhs_green,
+                 dhhstheme::dhhs_purple,
+                 dhhstheme::dhhs_teal,
+                 dhhstheme::dhhs_pink,
+                 dhhstheme::dhhs_blue,
+                 dhhstheme::dhhs_navy)
+  } else if (n == 7) {
+    palette <- c(dhhstheme::dhhs_green,
+                 dhhstheme::dhhs_purple,
+                 dhhstheme::dhhs_teal,
+                 dhhstheme::dhhs_pink,
+                 dhhstheme::dhhs_blue,
+                 dhhstheme::dhhs_navy,
+                 "black")
+  } else if (n == 8) {
+    palette <- c(dhhstheme::dhhs_green,
+                 dhhstheme::dhhs_purple,
+                 dhhstheme::dhhs_teal,
+                 dhhstheme::dhhs_pink,
+                 dhhstheme::dhhs_blue,
+                 dhhstheme::dhhs_navy,
+                 dhhstheme::dhhs_greyscale,
+                 dhhstheme::dhhs_orange)
+  } else if (n == 9) {
+    palette <- c(dhhstheme::dhhs_green,
+                 dhhstheme::dhhs_purple,
+                 dhhstheme::dhhs_teal,
+                 dhhstheme::dhhs_pink,
+                 dhhstheme::dhhs_blue,
+                 dhhstheme::dhhs_navy,
+                 dhhstheme::dhhs_greyscale,
+                 dhhstheme::dhhs_orange,
+                 dhhstheme::dhhs_greyscale3)
+  } else if (n == 10) {
+    palette <- c(dhhstheme::dhhs_green,
+                 dhhstheme::dhhs_purple,
+                 dhhstheme::dhhs_teal,
+                 dhhstheme::dhhs_pink,
+                 dhhstheme::dhhs_blue,
+                 dhhstheme::dhhs_navy,
+                 dhhstheme::dhhs_greyscale,
+                 dhhstheme::dhhs_orange,
+                 dhhstheme::dhhs_greyscale3,
+                 dhhstheme::dhhs_purple3)
+  }
+  palette
+}
+
+
+faded_palette <- function(n) {
+  if (n == 1) {
+    palette <- dhhstheme::dhhs_teal3
+  } else if (n == 2) {
+    palette <- c(dhhstheme::dhhs_teal3,
+                 dhhstheme::dhhs_pink4)
+  } else if (n == 3) {
+    palette <- c(dhhstheme::dhhs_purple4,
+                 dhhstheme::dhhs_teal3,
+                 dhhstheme::dhhs_pink4)
+  } else if (n == 4) {
+    palette <- c(dhhstheme::dhhs_purple4,
+                 dhhstheme::dhhs_teal3,
+                 dhhstheme::dhhs_pink4,
+                 dhhstheme::dhhs_blue4)
+  } else if (n == 5) {
+    palette <- c(dhhstheme::dhhs_purple4,
+                 dhhstheme::dhhs_teal3,
+                 dhhstheme::dhhs_pink4,
+                 dhhstheme::dhhs_blue4,
+                 dhhstheme::dhhs_navy4)
+  } else if (n == 6) {
+    palette <- c(dhhstheme::dhhs_green4,
+                 dhhstheme::dhhs_purple4,
+                 dhhstheme::dhhs_teal3,
+                 dhhstheme::dhhs_pink4,
+                 dhhstheme::dhhs_blue4,
+                 dhhstheme::dhhs_navy4)
+  } else if (n == 7) {
+    palette <- c(dhhstheme::dhhs_green4,
+                 dhhstheme::dhhs_purple4,
+                 dhhstheme::dhhs_teal3,
+                 dhhstheme::dhhs_pink4,
+                 dhhstheme::dhhs_blue4,
+                 dhhstheme::dhhs_navy4,
+                 "black")
+  } else if (n == 8) {
+    palette <- c(dhhstheme::dhhs_green4,
+                 dhhstheme::dhhs_purple4,
+                 dhhstheme::dhhs_teal3,
+                 dhhstheme::dhhs_pink4,
+                 dhhstheme::dhhs_blue4,
+                 dhhstheme::dhhs_navy4,
+                 dhhstheme::dhhs_greyscale3,
+                 dhhstheme::dhhs_orange4)
+  } else if (n == 9) {
+    palette <- c(dhhstheme::dhhs_green4,
+                 dhhstheme::dhhs_purple4,
+                 dhhstheme::dhhs_teal3,
+                 dhhstheme::dhhs_pink4,
+                 dhhstheme::dhhs_blue4,
+                 dhhstheme::dhhs_navy4,
+                 dhhstheme::dhhs_greyscale3,
+                 dhhstheme::dhhs_orange4,
+                 dhhstheme::dhhs_greyscale4)
+  } else if (n == 10) {
+    palette <- c(dhhstheme::dhhs_green4,
+                 dhhstheme::dhhs_purple4,
+                 dhhstheme::dhhs_teal3,
+                 dhhstheme::dhhs_pink4,
+                 dhhstheme::dhhs_blue4,
+                 dhhstheme::dhhs_navy4,
+                 dhhstheme::dhhs_greyscale4,
+                 dhhstheme::dhhs_orange4,
+                 dhhstheme::dhhs_greyscale3,
+                 dhhstheme::dhhs_purple3)
+  }
+  palette
+}
