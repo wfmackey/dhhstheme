@@ -28,12 +28,6 @@ desired, or a two element numeric vector such as c(0.9, 0.1).}
 
 \item{panel_borders}{`FALSE` by default. Set to `TRUE` to enable a black
 border around the plotting area.}
-
-\item{chart_type}{"normal" by detault. Set to "scatter" for scatter plots.}
-
-\item{flipped}{FALSE by default. Set to TRUE if using coord_flip(). If set to
-TRUE, the theme will show a vertical axis line, ticks & panel grid, while
-hiding the horizontals. Ignored for type = "scatter".}
 }
 \description{
 A ggplot2 theme consistent with DHHS style.

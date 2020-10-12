@@ -3,10 +3,6 @@
 #' @param base_size Size for text elements. Defaults to 18.
 #' @param base_family Font family for text elements. Defaults to "sans",
 #'   indistinguishable from Arial.
-#' @param chart_type "normal" by detault. Set to "scatter" for scatter plots.
-#' @param flipped FALSE by default. Set to TRUE if using coord_flip(). If set to
-#'   TRUE, the theme will show a vertical axis line, ticks & panel grid, while
-#'   hiding the horizontals. Ignored for type = "scatter".
 #' @param background "white" by default. Set to "transparent" or a different
 #' DHHS colour.
 #' @param legend "off" by default. Set to "bottom", "left", "right" or "top" as
@@ -20,8 +16,6 @@
 
 theme_dhhs <- function(base_size = 18,
                        base_family = "sans",
-                       base_line_size = points_to_mm(0.75),
-                       base_rect_size = points_to_mm(1),
                        background = "white",
                        legend = "none",
                        panel_borders = FALSE) {
@@ -35,6 +29,9 @@ theme_dhhs <- function(base_size = 18,
   dark_grey <- dhhstheme::dhhs_greyscale
   light_grey <- dhhstheme::dhhs_greyscale1
   title_colour <- dhhstheme::dhhs_navy
+
+  base_line_size <- points_to_mm(0.75)
+  base_rect_size <- points_to_mm(1)
 
   ret <-
     ggplot2::theme(
