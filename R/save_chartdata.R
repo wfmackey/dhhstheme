@@ -12,6 +12,12 @@
 #' \code{ggplot2::last_plot()} is used to get the last plot displayed.
 #' @param type type of plot. Default is "normal". See \code{?dhhs_save} for
 #' full list of types.
+#' @param export_vars Which variables to export data for. Defaults to "used",
+#' which will only export variables used in the plot. Input "all" to include all
+#' variables in the data. Otherwise provide a character vector of variable names.
+#'
+#' @param add_vars A character vector of variables to include \textit{as well as}
+#' the variables in \code{export_vars}.
 #'
 #' @export
 #' @importFrom openxlsx createWorkbook addWorksheet writeData insertImage
@@ -33,7 +39,9 @@
 
 save_chartdata <- function(filename,
                            object = ggplot2::last_plot(),
-                           type = "whole") {
+                           type = "whole",
+                           export_vars = "used",
+                           add_vars = NULL) {
 
   if (tools::file_ext(filename) != "xlsx") {
     stop(filename, " is not a valid filename; filename must end in .xlsx")
@@ -65,15 +73,26 @@ save_chartdata <- function(filename,
   dhhs_save(temp_image_location,
             object,
             "whole",
-            mute_messages = FALSE)
+            mute_messages = TRUE)
 
   # Get chart data
   chart_data <- object$data
 
-  # Only keep variables used in the plot
-  vars_used <- as.character(object$mapping)
-  vars_used <- gsub("~", "", vars_used)
-  chart_data <- dplyr::select(chart_data, dplyr::all_of(vars_used))
+  if (export_vars != "all") {
+
+    # Only keep variables used in the plot
+    if (export_vars == "used") {
+      vars_used <- as.character(object$mapping)
+      vars_used <- gsub("~", "", vars_used)
+    }
+
+    if (!is.null(add_vars)) {
+      vars_used <- c(vars_used, add_vars)
+    }
+
+    chart_data <- dplyr::select(chart_data, dplyr::all_of(vars_used))
+
+  }
 
   # To ensure that dates are correctly-formatted, save as strings
   for (col in seq_along(chart_data)) {

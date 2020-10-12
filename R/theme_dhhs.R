@@ -3,7 +3,7 @@
 #' @param base_size Size for text elements. Defaults to 14.
 #' @param background "white" by default. Set to "transparent" or a different
 #' DHHS colour.
-#' @param legend "off" by default. Set to "bottom", "left", "right" or "top" as
+#' @param legend "right" by default. Set to "none", "bottom", "left", "right" or "top" as
 #'   desired, or a two element numeric vector such as c(0.9, 0.1).
 #' @param panel_borders `FALSE` by default. Set to `TRUE` to enable a black
 #'   border around the plotting area.
@@ -14,7 +14,7 @@
 
 theme_dhhs <- function(base_size = 14,
                        background = "white",
-                       legend = "none",
+                       legend = "right",
                        panel_borders = FALSE) {
 
   # address global variable warning
@@ -111,13 +111,13 @@ theme_dhhs <- function(base_size = 14,
       legend.text = ggplot2::element_text(size = ggplot2::rel(1),
                                  margin = ggplot2::margin(l = 0,
                                                  r = base_size / 4, unit = "pt")),
-      legend.text.align = 0,
-      legend.title = ggplot2::element_blank(),
-      legend.title.align = NULL,
+      # legend.text.align = 0,
+      # legend.title = ggplot2::element_blank(),
+      # legend.title.align = NULL,
       legend.position = legend,
-      legend.direction = "horizontal",
-      legend.justification = "center",
-      legend.box = "vertical",
+      # legend.direction = "horizontal",
+      # legend.justification = "center",
+      # legend.box = "vertical",
       legend.box.margin = ggplot2::margin(0, 0,
                                  0, 0, "cm"),
       legend.box.background = ggplot2::element_blank(),

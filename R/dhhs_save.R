@@ -20,6 +20,7 @@
 #' Width: 10cm, height: 9.5cm.}
 #' }
 #' Set type = "all" to save your chart in all available sizes.
+#' @param export_chartdata Export chart data in an Excel file along with the images. Will be set to TRUE if type = "all".
 #' @param drop_labs Drops title, subtitle and caption. FALSE by default. Useful if you want to write your own in your export destination.
 #' @param mute_messages Do not display saving messages.
 #' @param ... Other arguments passed to ggsave
@@ -29,9 +30,11 @@
 
 dhhs_save <- function(file_path,
                       plot_object = ggplot2::last_plot(),
-                      type = "whole",
+                      type = "all",
+                      export_chartdata = FALSE,
                       drop_labs = FALSE,
-                      mute_messages = FALSE) {
+                      mute_messages = FALSE,
+                      ...) {
 
   chart_dir <- dirname(file_path)
   chart_name <- gsub("\\..*", "", basename(file_path))
@@ -46,10 +49,9 @@ dhhs_save <- function(file_path,
     chart_types <- all_chart_types[all_chart_types$type %in% type, ]
   }
 
-  if (nrow(chart_types) == 1) {
+  if (nrow(chart_types) == 1 & !export_chartdata) {
     chart_types <- dplyr::mutate(chart_types, path = file_path)
   } else {
-
     # create folder
     dir.create(file.path(chart_dir, chart_name),
                recursive = FALSE,
@@ -76,7 +78,7 @@ dhhs_save <- function(file_path,
   }
 
 
-  # Export
+  # Export images
   purrr::pwalk(
     list(chart_types$path,
          chart_types$height,
@@ -86,7 +88,22 @@ dhhs_save <- function(file_path,
     .mute_messages = mute_messages
   )
 
+  # Export chart data
+  if (export_chartdata | type == "all") {
+    export_excel_path <- file.path(chart_dir, paste0(chart_name, ".xlsx"))
+
+    if (!mute_messages) message("\t- exporting Excel data to: ", export_excel_path)
+
+    dhhstheme::save_chartdata(
+      filename = export_excel_path,
+      object = plot_object,
+      type = chart_types$type[1], # just choose first if many
+      ...
+    )
+  }
+
 }
+
 
 dhhs_save_one <- function(path, height, width,
                           .plot_object = plot_object,
@@ -99,4 +116,5 @@ dhhs_save_one <- function(path, height, width,
                   height = height,
                   width = width
   )
+
 }
