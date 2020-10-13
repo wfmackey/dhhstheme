@@ -8,15 +8,15 @@
 #' \itemize{
 #' \item{"whole"}{ The default. Use for a plot covering the whole body of a
 #' normal DHHS slide. Width: 32.74cm, height: 18.9cm.}
-#' \item{"half"}{Use for a tall plot covering the full left or right side a normal DHHS slide.
+#' \item{"half"}{ Use for a tall plot covering the full left or right side a normal DHHS slide.
 #' Width: 15.65cm, height: 18.9cm.}
-#' \item{"third"}{ The default. Use for a tall plot covering roughly one-third of the horizontal space on a normal DHHS slide.
+#' \item{"third"}{ Use for a tall plot covering roughly one-third of the horizontal space on a normal DHHS slide.
 #' Width: 10cm, height: 18.9cm.}
 #' \item{"short-whole"}{ The default. Use for a short plot covering half the body of a
 #' normal DHHS slide. Width: 32.74cm, height: 9.5cm.}
 #' \item{"short-half"}{Use for a short plot covering half of the left or right side of a normal DHHS slide.
 #' Width: 15.65cm, height: 9.5cm.}
-#' \item{"short-third"}{ The default. Use for a short plot covering roughly one-third of the horizontal space on a normal DHHS slide.
+#' \item{"short-third"}{ Use for a short plot covering roughly one-third of the horizontal space on a normal DHHS slide.
 #' Width: 10cm, height: 9.5cm.}
 #' }
 #' Set type = "all" to save your chart in all available sizes.

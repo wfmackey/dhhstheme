@@ -6,6 +6,8 @@
 #' @param legend "right" by default. Set to "none", "bottom", "left", "right" or "top" as
 #'   desired, or a two element numeric vector such as c(0.9, 0.1).
 #' @param panel_borders One of `"axes"` (default), "border", "none". Sets the border to a darker colour.
+#' @param include_minor_gridlines If "none" (the default), minor gridlines are not included.
+#' Use "x" or "y" to include minor gridlines for x or y axes, or "both" for both axes.
 #' @import ggrepel
 #' @importFrom ggplot2 %+replace%
 #' @export
@@ -14,7 +16,8 @@
 theme_dhhs <- function(base_size = 14,
                        background = "white",
                        legend = "right",
-                       panel_borders = "axes") {
+                       panel_borders = "axes",
+                       include_minor_gridlines = "none") {
 
   # address global variable warning
   '%+replace%' <- ggplot2::'%+replace%'
@@ -121,7 +124,8 @@ theme_dhhs <- function(base_size = 14,
       panel.background = ggplot2::element_rect(colour = NA),
       panel.border = ggplot2::element_blank(),
       panel.grid = ggplot2::element_line(colour = light_grey),
-      panel.grid.minor = ggplot2::element_blank(),
+      panel.grid.minor.x = ggplot2::element_blank(),
+      panel.grid.minor.y = ggplot2::element_blank(),
       panel.spacing = ggplot2::unit(1,
                            "lines"),
       panel.spacing.x = NULL,
@@ -199,6 +203,20 @@ theme_dhhs <- function(base_size = 14,
           size = points_to_mm(1),
           colour = dark_grey
       ))
+  }
+
+  if (include_minor_gridlines %in% c("x", "both")) {
+    ret <- ret %+replace%
+      ggplot2::theme(
+        panel.grid.minor.x = ggplot2::element_line(colour = light_grey)
+      )
+  }
+
+  if (include_minor_gridlines %in% c("y", "both")) {
+    ret <- ret %+replace%
+      ggplot2::theme(
+        panel.grid.minor.y = ggplot2::element_line(colour = light_grey)
+      )
   }
 
 

@@ -7,8 +7,9 @@
 theme_dhhs(
   base_size = 14,
   background = "white",
-  legend = "none",
-  panel_borders = FALSE
+  legend = "right",
+  panel_borders = "axes",
+  include_minor_gridlines = "none"
 )
 }
 \arguments{
@@ -17,11 +18,13 @@ theme_dhhs(
 \item{background}{"white" by default. Set to "transparent" or a different
 DHHS colour.}
 
-\item{legend}{"off" by default. Set to "bottom", "left", "right" or "top" as
+\item{legend}{"right" by default. Set to "none", "bottom", "left", "right" or "top" as
 desired, or a two element numeric vector such as c(0.9, 0.1).}
 
-\item{panel_borders}{`FALSE` by default. Set to `TRUE` to enable a black
-border around the plotting area.}
+\item{panel_borders}{One of `"axes"` (default), "border", "none". Sets the border to a darker colour.}
+
+\item{include_minor_gridlines}{If "none" (the default), minor gridlines are not included.
+Use "x" or "y" to include minor gridlines for x or y axes, or "both" for both axes.}
 }
 \description{
 A ggplot2 theme consistent with DHHS style.
