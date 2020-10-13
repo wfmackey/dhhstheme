@@ -1,8 +1,8 @@
 #' A ggplot2 theme consistent with DHHS style.
 #' @name theme_dhhs
 #' @param base_size Size for text elements. Defaults to 14.
-#' @param background "white" by default. Set to "transparent" or a different
-#' DHHS colour.
+#' @param base_colour Colour scheme for titles and axes. One of "navy" (default), "pink", "blue", "green", "orange".
+#' @param background "white" by default. Set to a different DHHS colour.
 #' @param legend "right" by default. Set to "none", "bottom", "left", "right" or "top" as
 #'   desired, or a two element numeric vector such as c(0.9, 0.1).
 #' @param panel_borders One of `"axes"` (default), "border", "none". Sets the border to a darker colour.
@@ -14,6 +14,7 @@
 
 
 theme_dhhs <- function(base_size = 14,
+                       base_colour = dhhs_navy,
                        background = "white",
                        legend = "right",
                        panel_borders = "axes",
@@ -24,9 +25,15 @@ theme_dhhs <- function(base_size = 14,
 
   half_line <- base_size / 2
 
-  dark_grey <- dhhstheme::dhhs_greyscale
-  light_grey <- dhhstheme::dhhs_greyscale1
-  title_colour <- dhhstheme::dhhs_navy
+  # dark_colour <- dhhstheme::dhhs_greyscale
+  # light_colour <- dhhstheme::dhhs_greyscale1
+  # title_colour <- dhhstheme::dhhs_navy
+
+  base_colour_string <- deparse(substitute(base_colour))
+
+  title_colour <- get(paste0(base_colour_string))
+  dark_colour <- get(paste0(base_colour_string, "4"))
+  light_colour <- get(paste0(base_colour_string, "1"))
 
   # Settings
   base_line_size <- points_to_mm(0.75)
@@ -36,19 +43,19 @@ theme_dhhs <- function(base_size = 14,
   ret <-
     ggplot2::theme(
         line = ggplot2::element_line(
-        colour = dark_grey,
+        colour = dark_colour,
         size = base_line_size,
         linetype = 1,
         lineend = "butt"
       ),
       rect = ggplot2::element_rect(
         fill = background,
-        colour = dark_grey,
+        colour = dark_colour,
         size = base_rect_size,
         linetype = 0
       ),
       text = ggplot2::element_text(
-        colour = dark_grey,
+        colour = dark_colour,
         family = base_family,
         face = "plain",
         hjust = 0.5,
@@ -72,7 +79,7 @@ theme_dhhs <- function(base_size = 14,
                                  hjust = 1),
       axis.text.y.right = ggplot2::element_text(margin = ggplot2::margin(l = base_size / 5),
                                        hjust = 0),
-      axis.ticks = ggplot2::element_line(colour = dark_grey),
+      axis.ticks = ggplot2::element_line(colour = dark_colour),
       axis.ticks.length = ggplot2::unit(half_line / 2, "pt"),
       axis.ticks.length.x = NULL,
       axis.ticks.length.x.top = NULL,
@@ -123,7 +130,7 @@ theme_dhhs <- function(base_size = 14,
       legend.box.spacing = ggplot2::unit( half_line, "pt"),
       panel.background = ggplot2::element_rect(colour = NA),
       panel.border = ggplot2::element_blank(),
-      panel.grid = ggplot2::element_line(colour = light_grey),
+      panel.grid = ggplot2::element_line(colour = light_colour),
       panel.grid.minor.x = ggplot2::element_blank(),
       panel.grid.minor.y = ggplot2::element_blank(),
       panel.spacing = ggplot2::unit(1,
@@ -150,7 +157,7 @@ theme_dhhs <- function(base_size = 14,
       plot.title.position = "plot",
       plot.caption.position = "plot",
       plot.title = ggplot2::element_text(
-        size = ggplot2::rel(1),
+        size = ggplot2::rel(1.3),
         hjust = 0,
         vjust = 1,
         colour = title_colour,
@@ -158,7 +165,7 @@ theme_dhhs <- function(base_size = 14,
         margin = ggplot2::margin(b = half_line)
       ),
       plot.subtitle = ggplot2::element_text(
-        colour = dark_grey,
+        colour = dark_colour,
         hjust = 0,
         vjust = 1,
         margin = ggplot2::margin(t = 0,
@@ -170,9 +177,9 @@ theme_dhhs <- function(base_size = 14,
       plot.caption = ggplot2::element_text(
         family = base_family,
         size = ggplot2::rel(0.555),
-        hjust = 0,
+        hjust = 1,
         vjust = 1,
-        colour = "black",
+        colour = dark_colour,
         face = "italic",
         margin = ggplot2::margin(t = 15)
       ),
@@ -193,7 +200,7 @@ theme_dhhs <- function(base_size = 14,
       ggplot2::theme(panel.border = ggplot2::element_rect(
         linetype = 1,
         size = points_to_mm(2),
-        colour = "black",
+        colour = dark_colour,
         fill = NA
       ))
   } else if (panel_borders %in% c("axis", "axes")) {
@@ -201,21 +208,21 @@ theme_dhhs <- function(base_size = 14,
       ggplot2::theme(
         axis.line = ggplot2::element_line(
           size = points_to_mm(1),
-          colour = dark_grey
+          colour = dark_colour
       ))
   }
 
   if (include_minor_gridlines %in% c("x", "both")) {
     ret <- ret %+replace%
       ggplot2::theme(
-        panel.grid.minor.x = ggplot2::element_line(colour = light_grey)
+        panel.grid.minor.x = ggplot2::element_line(colour = light_colour)
       )
   }
 
   if (include_minor_gridlines %in% c("y", "both")) {
     ret <- ret %+replace%
       ggplot2::theme(
-        panel.grid.minor.y = ggplot2::element_line(colour = light_grey)
+        panel.grid.minor.y = ggplot2::element_line(colour = light_colour)
       )
   }
 

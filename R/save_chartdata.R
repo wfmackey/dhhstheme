@@ -113,9 +113,8 @@ save_chartdata <- function(filename,
         vars_used <- c(vars_used, names(object$facet$params$facets))
         vars_used <- gsub("~", "", vars_used)
         # strip common in-aes adjustments
-        vars_used <- gsub("~", "", vars_used)
-
-        gsub(".*\\((.*)\\)", "($1)", "factor(x)")
+        vars_used <- gsub(".*\\((.*)\\)", "\\1", vars_used) # "factor(x)", etc
+        vars_used <- gsub(".*\\((.*),.*\\)", "\\1", vars_used) # "reorder(x, y)"
 
       }
 
