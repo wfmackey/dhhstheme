@@ -74,8 +74,6 @@ save_chartdata <- function(filename,
       stop("`object` is not a ggplot2 object")
     }
 
-    print(name)
-
     if (!is.null(name)) {
       if (name == "") {
         obj_name <- sheet_num
