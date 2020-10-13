@@ -150,7 +150,7 @@ p1
 dhhs_save("data-raw/ouput/colours1.png", type = "third")
 
 # continous
-mtcars %>%
+p3 <- mtcars %>%
   ggplot(aes(hp, wt,
              colour = disp)) +
   geom_point(size = 6) +
@@ -162,6 +162,8 @@ mtcars %>%
        colour = "Legend\ntitle:",
        y = NULL,
        x = "x-axis label")
+
+p3
 
 dhhs_save("data-raw/ouput/colours2.png", type = "third")
 
@@ -202,5 +204,8 @@ dhhs_save("data-raw/ouput/good2.png", plot_object = p2,
 # Slide 10: chart-data ---------------------------------------------------------
 
 dhhs_save("data-raw/ouput/with-chartdata1.png", plot_object = p1,
+          export_chartdata = TRUE)
+
+dhhs_save("data-raw/ouput/with-chartdata3.png", plot_object = p3,
           export_chartdata = TRUE)
 
