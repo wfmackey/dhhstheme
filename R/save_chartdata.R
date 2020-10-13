@@ -47,217 +47,264 @@ save_chartdata <- function(filename,
     stop(filename, " is not a valid filename; filename must end in .xlsx")
   }
 
-  # check inputs
-  if (!inherits(object, "ggplot")) {
-    stop("`object` is not a ggplot2 object")
+  # Get type of `object`:
+  if (inherits(object, "ggplot")) {
+    object_type <- "isplot"
+  } else if (is.list(object)) {
+    object_type <- "islist"
+
+      if (!all(purrr::map_lgl(plots, inherits, what = "ggplot"))) {
+        warning("Not all of the objects in this list are ggplot objects, so expect an error down the line")
+      }
+
+  } else {
+    stop("`object` is not a ggplot object nor a list of ggplot objects")
   }
 
-  obj_name <- deparse(substitute(object))
-
-  if (obj_name == "ggplot2::last_plot()") {
-    obj_name <- "plot"
-  }
-
-
-
-  # Expand height of graph if not set manually & labels are present
-  labels_present <- ifelse(!is.null(object$labels$caption) |
-                           !is.null(object$labels$title) |
-                           !is.null(object$labels$subtitle),
-                           TRUE,
-                           FALSE)
-
-  # Save graph
-  temp_image_location <- file.path(tempdir(), "chart_data_image.png")
-
-  dhhs_save(temp_image_location,
-            object,
-            "whole",
-            mute_messages = TRUE)
-
-  # Get chart data
-  chart_data <- object$data
-
-  if (export_vars != "all") {
-
-    # Only keep variables used in the plot
-    if (export_vars == "used") {
-      vars_used <- as.character(object$mapping)
-      vars_used <- gsub("~", "", vars_used)
-    }
-
-    if (!is.null(add_vars)) {
-      vars_used <- c(vars_used, add_vars)
-    }
-
-    chart_data <- dplyr::select(chart_data, dplyr::all_of(vars_used))
-
-  }
-
-  # To ensure that dates are correctly-formatted, save as strings
-  for (col in seq_along(chart_data)) {
-    if (inherits(chart_data[[col]], "Date")) {
-      chart_data[[col]] <- as.character(chart_data[[col]])
-    }
-  }
-
-  names(chart_data) <- tools::toTitleCase(names(chart_data))
-
-  data_columns <- ncol(chart_data)
-  data_rows <- nrow(chart_data)
 
   # Create workbook and add content
   wb <- openxlsx::createWorkbook()
 
-  openxlsx::addWorksheet(wb,
-                         sheetName = obj_name,
-                         gridLines = FALSE)
 
-  plot_subtitle <- object$labels$subtitle
-  plot_caption <- object$labels$caption
-  # Remove everything before "Source:" in caption
-  plot_caption <- gsub(".+?(?=Source:)", "", plot_caption, perl = TRUE)
+  # For each object provided, create a sheet
+  add_sheet <- function(object, sheet_num = 1, name = NULL) {
 
-  openxlsx::writeData(wb = wb,
-                      sheet = 1,
-                      x = plot_subtitle,
-                      startCol = 2,
-                      startRow = 1)
+    # check inputs
+    if (!inherits(object, "ggplot")) {
+      stop("`object` is not a ggplot2 object")
+    }
 
-  openxlsx::writeData(wb = wb,
-                      sheet = 1,
-                      x = plot_caption,
-                      startCol = 2,
-                      startRow = 5 + data_rows)
+    print(name)
+
+    if (!is.null(name)) {
+      if (name == "") {
+        obj_name <- sheet_num
+      } else {
+        obj_name <- name
+      }
+    } else if (is.null(name)) {
+      obj_name <- sheet_num
+    }
+
+    # Expand height of graph if not set manually & labels are present
+    labels_present <- ifelse(!is.null(object$labels$caption) |
+                             !is.null(object$labels$title) |
+                             !is.null(object$labels$subtitle),
+                             TRUE,
+                             FALSE)
+
+    # Save graph
+    temp_image_location <- file.path(tempdir(),
+                                     paste0("chart_data_image", sheet_num, ".png"))
+
+    dhhs_save(temp_image_location,
+              object,
+              "whole",
+              mute_messages = TRUE)
+
+    # Get chart data
+    chart_data <- object$data
+
+    if (export_vars != "all") {
+
+      # Only keep variables used in the plot
+      if (export_vars == "used") {
+        vars_used <- as.character(object$mapping)
+        vars_used <- c(vars_used, names(object$facet$params$facets))
+        vars_used <- gsub("~", "", vars_used)
+        # strip common in-aes adjustments
+        vars_used <- gsub("~", "", vars_used)
+
+        gsub(".*\\((.*)\\)", "($1)", "factor(x)")
+
+      }
+
+      if (!is.null(add_vars)) {
+        vars_used <- c(vars_used, add_vars)
+      }
+
+      chart_data <- dplyr::select(chart_data, dplyr::all_of(vars_used))
+
+    }
+
+    # To ensure that dates are correctly-formatted, save as strings
+    for (col in seq_along(chart_data)) {
+      if (inherits(chart_data[[col]], "Date")) {
+        chart_data[[col]] <- as.character(chart_data[[col]])
+      }
+    }
+
+    names(chart_data) <- tools::toTitleCase(names(chart_data))
+
+    data_columns <- ncol(chart_data)
+    data_rows <- nrow(chart_data)
 
 
-  openxlsx::writeData(wb,
-                      sheet = 1,
-                      x = chart_data,
-                      startCol = 2,
-                      startRow = 3)
+    openxlsx::addWorksheet(wb,
+                           sheetName = obj_name,
+                           gridLines = FALSE)
 
-  openxlsx::insertImage(wb = wb,
-                        sheet = 1,
-                        startRow = 3,
-                        startCol = data_columns + 3,
-                        file = temp_image_location,
-                        width = dhhstheme::all_chart_types$width_cm[dhhstheme::all_chart_types$type == type],
-                        height = dhhstheme::all_chart_types$height_cm[dhhstheme::all_chart_types$type == type],
-                        units = "cm",
-                        dpi = 320)
+    plot_subtitle <- object$labels$subtitle
+    plot_caption <- object$labels$caption
+    # Remove everything before "Source:" in caption
+    plot_caption <- gsub(".+?(?=Source:)", "", plot_caption, perl = TRUE)
+
+    openxlsx::writeData(wb = wb,
+                        sheet = sheet_num,
+                        x = plot_subtitle,
+                        startCol = 2,
+                        startRow = 1)
+
+    openxlsx::writeData(wb = wb,
+                        sheet = sheet_num,
+                        x = plot_caption,
+                        startCol = 2,
+                        startRow = 5 + data_rows)
 
 
-  # Change font of entire sheet
-  dhhs_font_style <- openxlsx::createStyle(fontName = "Arial",
-                                           fontSize = 11,
-                                           halign = "center",
-                                           fontColour = "#000000")
+    openxlsx::writeData(wb,
+                        sheet = sheet_num,
+                        x = chart_data,
+                        startCol = 2,
+                        startRow = 3)
 
-  openxlsx::addStyle(wb, 1, dhhs_font_style, cols = 1:100, rows = 1:2000,
-           gridExpand = TRUE)
+    openxlsx::insertImage(wb = wb,
+                          sheet = sheet_num,
+                          startRow = 3,
+                          startCol = data_columns + 3,
+                          file = temp_image_location,
+                          width = dhhstheme::all_chart_types$width_cm[dhhstheme::all_chart_types$type == type],
+                          height = dhhstheme::all_chart_types$height_cm[dhhstheme::all_chart_types$type == type],
+                          units = "cm",
+                          dpi = 320)
 
-  # Bold title
 
-  dhhs_title_style <- openxlsx::createStyle(textDecoration = "bold",
-                                            halign = "left",
-                                            fontSize = 12)
+    # Change font of entire sheet
+    dhhs_font_style <- openxlsx::createStyle(fontName = "Arial",
+                                             fontSize = 11,
+                                             halign = "right",
+                                             fontColour = "#000000")
 
-  openxlsx::addStyle(wb, 1, dhhs_title_style, cols = 2, rows = 1, stack = TRUE)
+    openxlsx::addStyle(wb, sheet_num, dhhs_font_style, cols = 1:100, rows = 1:2000,
+             gridExpand = TRUE)
 
-  # Orange fill for table
+    # Bold title
 
-  dhhs_table_style <- openxlsx::createStyle(fgFill = dhhstheme::dhhs_blue4,
-                                               bgFill = dhhstheme::dhhs_blue4,
-                                               wrapText = TRUE)
+    dhhs_title_style <- openxlsx::createStyle(textDecoration = "bold",
+                                              halign = "left",
+                                              fontSize = 12)
 
-  openxlsx::addStyle(wb, 1,
-           dhhs_table_style,
-           cols = 2:(data_columns + 1),
-           rows = 3:(data_rows + 3),
-           stack = TRUE,
-           gridExpand = TRUE)
+    openxlsx::addStyle(wb, sheet_num, dhhs_title_style, cols = 2, rows = 1, stack = TRUE)
 
-  # Italicise caption
+    # Orange fill for table
 
-  dhhs_caption_style <- openxlsx::createStyle(textDecoration = c("italic",
-                                                                 "underline"),
-                                              halign = "left")
+    dhhs_table_style <- openxlsx::createStyle(fgFill = dhhstheme::dhhs_navy1,
+                                                 bgFill = dhhstheme::dhhs_navy1,
+                                                 wrapText = TRUE)
 
-  openxlsx::addStyle(wb,
-           1,
-           dhhs_caption_style,
-           rows = 5 + data_rows,
-           cols = 2,
-           stack = TRUE)
+    openxlsx::addStyle(wb, sheet_num,
+             dhhs_table_style,
+             cols = 2:(data_columns + 1),
+             rows = 3:(data_rows + 3),
+             stack = TRUE,
+             gridExpand = TRUE)
 
-  # Bold header
+    # Italicise caption
 
-  dhhs_heading_style <- openxlsx::createStyle(textDecoration = "bold")
+    dhhs_caption_style <- openxlsx::createStyle(textDecoration = c("italic",
+                                                                   "underline"),
+                                                halign = "left")
 
-  openxlsx::addStyle(wb,
-           1,
-           dhhs_heading_style,
-           rows = 3,
-           cols = 2:(data_columns + 1),
-           stack = TRUE)
+    openxlsx::addStyle(wb, sheet_num,
+             dhhs_caption_style,
+             rows = 5 + data_rows,
+             cols = 2,
+             stack = TRUE)
 
-  # Add borders
+    # Bold header
 
-  dhhs_border <- function(border,
-                             border_colour = dhhstheme::dhhs_blue,
-                             border_style = "thick") {
+    dhhs_heading_style <- openxlsx::createStyle(textDecoration = "bold")
 
-    openxlsx::createStyle(border = border,
-                          borderColour = border_colour,
-                          borderStyle = border_style)
+    openxlsx::addStyle(wb, sheet_num,
+             dhhs_heading_style,
+             rows = 3,
+             cols = 2:(data_columns + 1),
+             stack = TRUE)
+
+    # Add borders
+
+    dhhs_border <- function(border,
+                               border_colour = dhhstheme::dhhs_navy,
+                               border_style = "thick") {
+
+      openxlsx::createStyle(border = border,
+                            borderColour = border_colour,
+                            borderStyle = border_style)
+    }
+
+
+    openxlsx::addStyle(wb, sheet_num,
+                       dhhs_border("left"),
+                       rows = 3:(data_rows + 3),
+                       cols = 2,
+                       stack = TRUE)
+
+    openxlsx::addStyle(wb, sheet_num,
+                       dhhs_border("right"),
+                       rows = 3:(data_rows + 3),
+                       cols = data_columns + 1,
+                       stack = TRUE)
+    openxlsx::addStyle(wb, sheet_num,
+                       dhhs_border("top"),
+                       rows = 3,
+                       cols = 2:(data_columns + 1),
+                       stack = TRUE)
+
+    openxlsx::addStyle(wb, sheet_num,
+                       dhhs_border("bottom"),
+                       rows = data_rows + 3,
+                       cols = 2:(data_columns + 1),
+                       stack = TRUE)
+
+    # Resize first column
+    openxlsx::setColWidths(wb, sheet_num,
+                           cols = 1,
+                           widths = 0.45)
+
+    # Resize data columns
+    openxlsx::setColWidths(wb, sheet_num,
+                           cols = 2:(data_columns + 1),
+                           widths = 15)
+
   }
 
+  # # If a single ggplot object:
+  if (inherits(object, "ggplot")) {
 
-  openxlsx::addStyle(wb, 1,
-                     dhhs_border("left"),
-                     rows = 3:(data_rows + 3),
-                     cols = 2,
-                     stack = TRUE)
+    add_sheet(object)
 
-  openxlsx::addStyle(wb, 1,
-                     dhhs_border("right"),
-                     rows = 3:(data_rows + 3),
-                     cols = data_columns + 1,
-                     stack = TRUE)
-  openxlsx::addStyle(wb, 1,
-                     dhhs_border("top"),
-                     rows = 3,
-                     cols = 2:(data_columns + 1),
-                     stack = TRUE)
+  } else if (is.list(object) & is.null(names(object))) {
 
-  openxlsx::addStyle(wb, 1,
-                     dhhs_border("bottom"),
-                     rows = data_rows + 3,
-                     cols = 2:(data_columns + 1),
-                     stack = TRUE)
+    purrr::walk2(object, 1:length(object), add_sheet)
 
-  # Resize first column
+  } else if (is.list(object) & !is.null(names(object))) {
 
-  openxlsx::setColWidths(wb, 1,
-                         cols = 1,
-                         widths = 0.45)
+    purrr::pwalk(
+      list(object,
+           1:length(object),
+           names(object)),
+      add_sheet)
+
+  }
 
   # Save workbook ----
   # Use minimal compression, for speed
-  # Only way to modify openxlsx compression level seems to be through an option
   user_option <- getOption("openxlsx.compressionlevel")
   options("openxlsx.compressionlevel" = 1)
 
-  tempfile <- wb$saveWorkbook()
-
-  file.copy(from = tempfile, to = filename, overwrite = TRUE)
-
-  unlink(tempfile)
-  unlink(temp_image_location)
+  openxlsx::saveWorkbook(wb, file = filename, overwrite = TRUE)
 
   # Restore previous value for compression level
   options("openxlsx.compressionlevel" = user_option)
 
 }
-

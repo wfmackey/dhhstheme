@@ -1,0 +1,155 @@
+---
+title: "Using {dhhstheme}"
+author: "Will Mackey"
+date: "13/10/2020"
+output: 
+  html_document:
+    theme: paper
+    highlights: kate
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+devtools::load_all()
+```
+
+# The `dhhstheme` package
+
+The `dhhstheme` package is designed to make it easier to generate DHHS-style charts using the `ggplot2` package in R.
+
+
+# Set up
+
+The package is hosted on Github. To install a package from Github, use the `install_github()` function from the `remotes` package:
+
+```{r install, eval=FALSE}
+install.packages("remotes")
+remotes::install_github("wfmackey/dhhstheme")
+```
+
+Then load the package, along with the `tidyverse` package that contains `ggplot2` and other data-manipulation tools:
+
+```{r library, message = FALSE, warnings = FALSE}
+library(dhhstheme)
+library(tidyverse)
+```
+
+The package contains some COVID-19 data from [Our World in Data](https://ourworldindata.org/coronavirus) for demonstrations. This is  loaded with the package in `owid_sample`: 
+
+
+```{r data}
+glimpse(owid_sample)
+```
+
+
+
+## A basic bar chart using `theme_dhhs`
+
+```{r base_col}
+owid_sample %>% 
+  filter(country == "Australia") %>% 
+  ggplot(aes(date, new_cases)) + 
+  geom_col(width = 1)
+```
+
+
+To add the DHHS theme, add `theme_dhhs`:
+
+```{r theme_col}
+owid_sample %>% 
+  filter(country == "Australia") %>% 
+  ggplot(aes(date, new_cases)) + 
+  geom_col(width = 1) +
+  theme_dhhs()
+```
+
+
+You can use the pre-set DHHS colours to `fill` the plot:
+
+```{r theme_col2}
+owid_sample %>% 
+  filter(country == "Australia") %>% 
+  ggplot(aes(date, new_cases)) + 
+  geom_col(width = 1,
+           fill = dhhs_teal) +
+  theme_dhhs()
+```
+
+
+Finally, adding titles and labels:
+
+```{r theme_col3}
+aus_cases <- owid_sample %>% 
+  filter(country == "Australia") %>% 
+  ggplot(aes(date, new_cases)) + 
+  geom_col(width = 1,
+           fill = dhhs_teal) +
+  theme_dhhs() +
+  labs(title = "Australia's second wave peaked in August",
+       subtitle = "Daily COVID-19 cases in Australia",
+       x = NULL,
+       y = NULL,
+       caption = "Source: Our World in Data (ourworldindata.org/coronavirus).")
+
+aus_cases
+```
+
+## Saving a bar-chart
+
+The `dhhs_save` function
+
+```{r save_col, message = FALSE}
+dhhs_save(file_path = "data-raw/aus_cases.png", 
+          plot_object = aus_cases)
+```
+
+By default, this will save
+
+## Adding `theme_dhhs` and labels
+
+
+
+
+
+
+
+# misc
+
+
+
+```{r base_line}
+p_base_line <- owid_sample %>% 
+  ggplot(aes(date, total_cases_per_million,
+             colour = country)) + 
+  geom_line()
+
+p_base_line
+```
+
+```{r theme_line}
+p_base_line + 
+  theme_dhhs() + 
+  labs(title = "United States leads the way",
+       subtitle = "Cumulative COVID-19 cases per million population",
+       x = "Date",
+       y = NULL,
+       colour = "Country:")
+```
+
+
+
+```{r base_point}
+
+p_base_point <- owid_sample %>% 
+  filter(start_of_month) %>% 
+  ggplot(aes(total_cases_per_million, total_deaths_per_million,
+             colour = country)) + 
+  geom_point(size = 4, alpha = .8) + 
+  scale_x_log10() + 
+  scale_y_log10()
+
+p_base_point
+```
+
+

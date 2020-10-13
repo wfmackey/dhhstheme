@@ -30,7 +30,7 @@
 
 dhhs_save <- function(file_path,
                       plot_object = ggplot2::last_plot(),
-                      type = "all",
+                      type = "whole",
                       export_chartdata = FALSE,
                       drop_labs = FALSE,
                       mute_messages = FALSE,

@@ -5,8 +5,7 @@
 #' DHHS colour.
 #' @param legend "right" by default. Set to "none", "bottom", "left", "right" or "top" as
 #'   desired, or a two element numeric vector such as c(0.9, 0.1).
-#' @param panel_borders `FALSE` by default. Set to `TRUE` to enable a black
-#'   border around the plotting area.
+#' @param panel_borders One of `"axes"` (default), "border", "none". Sets the border to a darker colour.
 #' @import ggrepel
 #' @importFrom ggplot2 %+replace%
 #' @export
@@ -15,7 +14,7 @@
 theme_dhhs <- function(base_size = 14,
                        background = "white",
                        legend = "right",
-                       panel_borders = FALSE) {
+                       panel_borders = "axes") {
 
   # address global variable warning
   '%+replace%' <- ggplot2::'%+replace%'
@@ -57,10 +56,7 @@ theme_dhhs <- function(base_size = 14,
         margin = ggplot2::margin(),
         size = base_size
       ),
-      axis.line = ggplot2::element_line(
-        size = points_to_mm(1),
-        colour = dark_grey
-      ),
+      axis.line = ggplot2::element_blank(),
       axis.line.x = NULL,
       axis.line.y = NULL,
       axis.text = ggplot2::element_text(size = ggplot2::rel(1)),
@@ -188,13 +184,20 @@ theme_dhhs <- function(base_size = 14,
     )
 
   # add panel borders if the user requests them
-  if (panel_borders) {
+  if (panel_borders == "border") {
     ret <- ret %+replace%
       ggplot2::theme(panel.border = ggplot2::element_rect(
         linetype = 1,
         size = points_to_mm(2),
         colour = "black",
         fill = NA
+      ))
+  } else if (panel_borders %in% c("axis", "axes")) {
+    ret <- ret %+replace%
+      ggplot2::theme(
+        axis.line = ggplot2::element_line(
+          size = points_to_mm(1),
+          colour = dark_grey
       ))
   }
 
@@ -203,6 +206,7 @@ theme_dhhs <- function(base_size = 14,
     ret <- ret +
       ggplot2::theme(rect = ggplot2::element_rect(
         fill = background))
+
   }
 
   ret
