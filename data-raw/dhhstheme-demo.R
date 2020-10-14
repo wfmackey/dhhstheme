@@ -226,5 +226,8 @@ dhhs_save("data-raw/output/with-chartdata3.png", plot_object = p3,
           export_chartdata = TRUE)
 
 # Slide 11: export multiple charts
-save_chartdata("data-raw/output/all-chartdata.xlsx", object = list(p1, p2, p3))
+save_chartdata("data-raw/output/all-chartdata.xlsx",
+               object = list(p1, p2, p3),
+               cover_title = "This is the title!",
+               cover_date = "1920-01-01")
 

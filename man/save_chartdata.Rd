@@ -9,7 +9,10 @@ save_chartdata(
   object = ggplot2::last_plot(),
   type = "whole",
   export_vars = "used",
-  add_vars = NULL
+  add_vars = NULL,
+  cover_page = TRUE,
+  cover_title = NULL,
+  cover_date = TRUE
 )
 }
 \arguments{
@@ -28,6 +31,12 @@ variables in the data. Otherwise provide a character vector of variable names.}
 
 \item{add_vars}{A character vector of variables to include as well as
 the variables in \code{export_vars}.}
+
+\item{cover_page}{'TRUE' by default. If exporting multiple charts, this adds a cover page with the DHHS logo and title (if specified, see \code{cover_title}).}
+
+\item{cover_title}{Set the title for the cover page if exporting multiple charts.}
+
+\item{cover_date}{If 'TRUE', print the export date. If a date is provided, that date will be printed. If 'FALSE', no date will be printed.}
 }
 \description{
 This function takes a ggplot2 object and creates a single-sheet Excel workbook

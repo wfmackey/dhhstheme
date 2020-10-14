@@ -19,6 +19,10 @@
 #' @param add_vars A character vector of variables to include as well as
 #' the variables in \code{export_vars}.
 #'
+#'@param cover_page 'TRUE' by default. If exporting multiple charts, this adds a cover page with the DHHS logo and title (if specified, see \code{cover_title}).
+#'@param cover_title Set the title for the cover page if exporting multiple charts.
+#'@param cover_date If 'TRUE', print the export date. If a date is provided, that date will be printed. If 'FALSE', no date will be printed.
+#'
 #' @export
 #' @importFrom openxlsx createWorkbook addWorksheet writeData insertImage
 #' @importFrom openxlsx createStyle addStyle setColWidths saveWorkbook
@@ -41,7 +45,10 @@ save_chartdata <- function(filename,
                            object = ggplot2::last_plot(),
                            type = "whole",
                            export_vars = "used",
-                           add_vars = NULL) {
+                           add_vars = NULL,
+                           cover_page = TRUE,
+                           cover_title = NULL,
+                           cover_date = TRUE) {
 
   if (tools::file_ext(filename) != "xlsx") {
     stop(filename, " is not a valid filename; filename must end in .xlsx")
@@ -80,6 +87,27 @@ save_chartdata <- function(filename,
                           height = 8,
                           units = "cm",
                           dpi = 320)
+
+    if (cover_date != FALSE) {
+
+      print_date <- ifelse(cover_date == TRUE, Sys.Date(), cover_date)
+
+      openxlsx::writeData(wb = wb,
+                          sheet = 1,
+                          x = paste("This file was created on", print_date),
+                          startCol = 1,
+                          startRow = 19)
+    }
+
+    if (!is.null(cover_title)) {
+    openxlsx::writeData(wb = wb,
+                        sheet = 1,
+                        x = cover_title,
+                        startCol = 1,
+                        startRow = 17)
+    }
+
+
 
   }
 
