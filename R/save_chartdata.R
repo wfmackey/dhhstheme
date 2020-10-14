@@ -53,7 +53,7 @@ save_chartdata <- function(filename,
   } else if (is.list(object)) {
     object_type <- "islist"
 
-      if (!all(purrr::map_lgl(plots, inherits, what = "ggplot"))) {
+      if (!all(purrr::map_lgl(object, inherits, what = "ggplot"))) {
         warning("Not all of the objects in this list are ggplot objects, so expect an error down the line")
       }
 
@@ -65,6 +65,23 @@ save_chartdata <- function(filename,
   # Create workbook and add content
   wb <- openxlsx::createWorkbook()
 
+  # If multiple plots, add a cover page
+  if (object_type == "islist") {
+    openxlsx::addWorksheet(wb,
+                           sheetName = "Cover",
+                           gridLines = FALSE)
+
+    openxlsx::insertImage(wb = wb,
+                          sheet = 1,
+                          startRow = 1,
+                          startCol = 1,
+                          file = file.path("data-raw", "dhhs-logo.png"),
+                          width = 20,
+                          height = 8,
+                          units = "cm",
+                          dpi = 320)
+
+  }
 
   # For each object provided, create a sheet
   add_sheet <- function(object, sheet_num = 1, name = NULL) {
@@ -170,8 +187,8 @@ save_chartdata <- function(filename,
                           startRow = 3,
                           startCol = data_columns + 3,
                           file = temp_image_location,
-                          width = dhhstheme::all_chart_types$width_cm[dhhstheme::all_chart_types$type == type],
-                          height = dhhstheme::all_chart_types$height_cm[dhhstheme::all_chart_types$type == type],
+                          width = dhhstheme::all_chart_types$width_cm[dhhstheme::all_chart_types$type == type][1],
+                          height = dhhstheme::all_chart_types$height_cm[dhhstheme::all_chart_types$type == type][1],
                           units = "cm",
                           dpi = 320)
 
@@ -282,13 +299,13 @@ save_chartdata <- function(filename,
 
   } else if (is.list(object) & is.null(names(object))) {
 
-    purrr::walk2(object, 1:length(object), add_sheet)
+    purrr::walk2(object, 2:(length(object)+1), add_sheet)
 
   } else if (is.list(object) & !is.null(names(object))) {
 
     purrr::pwalk(
       list(object,
-           1:length(object),
+           2:(length(object)+1),
            names(object)),
       add_sheet)
 

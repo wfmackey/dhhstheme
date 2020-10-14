@@ -44,7 +44,7 @@ dhhs_save <- function(file_path,
 
   all_chart_types <- dhhstheme:::all_chart_types
 
-  message("Exporting plots for the ", ppt_size, " template")
+  if (!mute_messages) message("Exporting plots for the ", ppt_size, " template")
 
   if (type == "all") {
     if (!mute_messages) message("Saving all types in ", file.path(chart_dir, chart_name))

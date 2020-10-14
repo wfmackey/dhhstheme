@@ -19,8 +19,8 @@ mtcars %>%
        x = "x-axis label",
        caption = "Sources and notes for the chart.")
 
-dhhs_save("data-raw/ouput/base.png", type = "half")
-dhhs_save("data-raw/ouput/base.png", type = "half", ppt_size = "normal169")
+dhhs_save("data-raw/output/base.png", type = "half")
+dhhs_save("data-raw/output/base.png", type = "half", ppt_size = "normal169")
 
 
 # Slide 2 ----------------------------------------------------------------------
@@ -33,7 +33,7 @@ mtcars %>%
        y = NULL,
        x = "x-axis label")
 
-dhhs_save("data-raw/ouput/consistent1.png", type = "third")
+dhhs_save("data-raw/output/consistent1.png", type = "third")
 
 mtcars %>%
   ggplot(aes(factor(cyl), hp)) +
@@ -45,7 +45,7 @@ mtcars %>%
        y = NULL,
        x = "x-axis label")
 
-dhhs_save("data-raw/ouput/consistent2.png", type = "third")
+dhhs_save("data-raw/output/consistent2.png", type = "third")
 
 p2 <- mtcars %>%
   ggplot(aes(factor(cyl), hp)) +
@@ -56,7 +56,7 @@ p2 <- mtcars %>%
        y = NULL,
        x = "x-axis label")
 p2
-dhhs_save("data-raw/ouput/consistent3.png", type = "third")
+dhhs_save("data-raw/output/consistent3.png", type = "third")
 
 
 # Slide 3 ----------------------------------------------------------------------
@@ -71,7 +71,7 @@ mtcars %>%
        y = NULL,
        x = "x-axis label")
 
-dhhs_save("data-raw/ouput/flexible1.png", type = "third")
+dhhs_save("data-raw/output/flexible1.png", type = "third")
 
 mtcars %>%
   ggplot(aes(factor(cyl), hp)) +
@@ -83,7 +83,7 @@ mtcars %>%
        y = NULL,
        x = "x-axis label")
 
-dhhs_save("data-raw/ouput/flexible2.png", type = "third")
+dhhs_save("data-raw/output/flexible2.png", type = "third")
 
 mtcars %>%
   ggplot(aes(factor(cyl), hp)) +
@@ -95,7 +95,7 @@ mtcars %>%
        y = NULL,
        x = "x-axis label")
 
-dhhs_save("data-raw/ouput/flexible3.png", type = "third")
+dhhs_save("data-raw/output/flexible3.png", type = "third")
 
 
 
@@ -113,7 +113,7 @@ mtcars %>%
        colour = "Legend title",
        caption = "Sources and notes.")
 
-dhhs_save("data-raw/ouput/colours.png", type = "half")
+dhhs_save("data-raw/output/colours.png", type = "half")
 
 
 # Slide 8: colours -------------------------------------------------------------
@@ -130,7 +130,7 @@ mtcars %>%
        colour = "Legend title",
        caption = "Sources and notes.")
 
-dhhs_save("data-raw/ouput/colours.png", type = "half")
+dhhs_save("data-raw/output/colours.png", type = "half")
 
 # Slide 9: more colours demos --------------------------------------------------
 p1 <- mtcars %>%
@@ -148,7 +148,7 @@ p1 <- mtcars %>%
 
 p1
 
-dhhs_save("data-raw/ouput/colours1.png", type = "third")
+dhhs_save("data-raw/output/colours1.png", type = "third")
 
 # continous
 p3 <- mtcars %>%
@@ -166,7 +166,7 @@ p3 <- mtcars %>%
 
 p3
 
-dhhs_save("data-raw/ouput/colours2.png", type = "third")
+dhhs_save("data-raw/output/colours2.png", type = "third")
 
 # fill
 mtcars %>%
@@ -181,7 +181,7 @@ mtcars %>%
        y = NULL,
        x = "x-axis label")
 
-dhhs_save("data-raw/ouput/colours3.png", type = "third")
+dhhs_save("data-raw/output/colours3.png", type = "third")
 
 # Facets
 mtcars %>%
@@ -197,31 +197,34 @@ mtcars %>%
        y = NULL,
        x = "x-axis label")
 
-dhhs_save("data-raw/ouput/colours3.png", type = "third")
+dhhs_save("data-raw/output/colours3.png", type = "third")
 
 
 # Slide 10: exporting ----------------------------------------------------------
 
 # Bad
-ggsave("data-raw/ouput/bad1.png", plot = p1,
+ggsave("data-raw/output/bad1.png", plot = p1,
        height = 10, width = 10)
 
-ggsave("data-raw/ouput/bad2.png", plot = p2,
+ggsave("data-raw/output/bad2.png", plot = p2,
        height = 3, width = 3)
 
 # Good
-dhhs_save("data-raw/ouput/good1.png", plot_object = p1,
+dhhs_save("data-raw/output/good1.png", plot_object = p1,
           type = "short-third")
 
-dhhs_save("data-raw/ouput/good2.png", plot_object = p2,
+dhhs_save("data-raw/output/good2.png", plot_object = p2,
           type = "third")
 
 
 # Slide 10: chart-data ---------------------------------------------------------
 
-dhhs_save("data-raw/ouput/with-chartdata1.png", plot_object = p1,
+dhhs_save("data-raw/output/with-chartdata1.png", plot_object = p1,
           export_chartdata = TRUE)
 
-dhhs_save("data-raw/ouput/with-chartdata3.png", plot_object = p3,
+dhhs_save("data-raw/output/with-chartdata3.png", plot_object = p3,
           export_chartdata = TRUE)
+
+# Slide 11: export multiple charts
+save_chartdata("data-raw/output/all-chartdata.xlsx", object = list(p1, p2, p3))
 
