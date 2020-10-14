@@ -26,7 +26,7 @@ full list of types.}
 which will only export variables used in the plot. Input "all" to include all
 variables in the data. Otherwise provide a character vector of variable names.}
 
-\item{add_vars}{A character vector of variables to include \textit{as well as}
+\item{add_vars}{A character vector of variables to include as well as
 the variables in \code{export_vars}.}
 }
 \description{

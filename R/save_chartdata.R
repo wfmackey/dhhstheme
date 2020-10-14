@@ -16,7 +16,7 @@
 #' which will only export variables used in the plot. Input "all" to include all
 #' variables in the data. Otherwise provide a character vector of variable names.
 #'
-#' @param add_vars A character vector of variables to include \textit{as well as}
+#' @param add_vars A character vector of variables to include as well as
 #' the variables in \code{export_vars}.
 #'
 #' @export

@@ -1,0 +1,60 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# dhhstheme
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+*This package is under development and subject to change substantially.* 
+Use for exploration but not yet for production. 
+
+This package is designed to make DHHS-styled charts with the `ggplot2` R package.
+
+It is currently maintained by Will Mackey.
+
+Please file an issue to report bugs or request features at: 
+
+## Installation
+
+You can install this package from [GitHub](https://github.com/) with:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("wfmackey/dhhstheme")
+```
+## Example
+
+
+```{r example}
+library(dhhstheme)
+library(tidyverse)
+
+mtcars %>%
+  ggplot(aes(hp, wt,
+             colour = factor(cyl))) +
+  geom_point(size = 6, alpha = .8) +
+  theme_dhhs() +
+  dhhs_colour_manual(3) +
+  labs(title = "A plot with DHHS colours",
+       subtitle = "y-axis label",
+       y = NULL,
+       x = "x-axis label",
+       colour = "Legend title",
+       caption = "Sources and notes.")
+
+dhhs_save("data-raw/ouput/colours.png", type = "half")
+
+```

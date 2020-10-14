@@ -6,6 +6,7 @@
 \usage{
 theme_dhhs(
   base_size = 14,
+  base_colour = dhhs_navy,
   background = "white",
   legend = "right",
   panel_borders = "axes",
@@ -15,8 +16,9 @@ theme_dhhs(
 \arguments{
 \item{base_size}{Size for text elements. Defaults to 14.}
 
-\item{background}{"white" by default. Set to "transparent" or a different
-DHHS colour.}
+\item{base_colour}{Colour scheme for titles and axes. One of "navy" (default), "pink", "blue", "green", "orange".}
+
+\item{background}{"white" by default. Set to a different DHHS colour.}
 
 \item{legend}{"right" by default. Set to "none", "bottom", "left", "right" or "top" as
 desired, or a two element numeric vector such as c(0.9, 0.1).}

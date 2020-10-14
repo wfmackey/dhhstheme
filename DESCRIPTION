@@ -18,7 +18,8 @@ Imports:
     patchwork (>= 1.0.0),
     stringr,
     rstudioapi,
-    utils
+    utils,
+    openxlsx
 VignetteBuilder: knitr
 Encoding: UTF-8
 LazyData: true
