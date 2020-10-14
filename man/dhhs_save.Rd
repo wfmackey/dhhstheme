@@ -8,6 +8,7 @@ dhhs_save(
   file_path,
   plot_object = ggplot2::last_plot(),
   type = "whole",
+  ppt_size = "large",
   export_chartdata = FALSE,
   drop_labs = FALSE,
   mute_messages = FALSE,
@@ -37,6 +38,8 @@ Width: 15.65cm, height: 9.5cm.}
 Width: 10cm, height: 9.5cm.}
 }
 Set type = "all" to save your chart in all available sizes.}
+
+\item{ppt_size}{One of "large" (default, for the often-used very-large Powerpoint template), or "normal43" for the standard 4:3 template or "normal169" for the standard 16:9 template.}
 
 \item{export_chartdata}{Export chart data in an Excel file along with the images. Will be set to TRUE if type = "all".}
 

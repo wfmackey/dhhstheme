@@ -20,17 +20,19 @@
 #' Width: 10cm, height: 9.5cm.}
 #' }
 #' Set type = "all" to save your chart in all available sizes.
+#' @param ppt_size One of "large" (default, for the often-used very-large Powerpoint template), or "normal43" for the standard 4:3 template or "normal169" for the standard 16:9 template.
 #' @param export_chartdata Export chart data in an Excel file along with the images. Will be set to TRUE if type = "all".
 #' @param drop_labs Drops title, subtitle and caption. FALSE by default. Useful if you want to write your own in your export destination.
 #' @param mute_messages Do not display saving messages.
 #' @param ... Other arguments passed to ggsave
 #'
-#' @importFrom dplyr
+#' @import dplyr
 #' @export
 
 dhhs_save <- function(file_path,
                       plot_object = ggplot2::last_plot(),
                       type = "whole",
+                      ppt_size = "large",
                       export_chartdata = FALSE,
                       drop_labs = FALSE,
                       mute_messages = FALSE,
@@ -40,13 +42,17 @@ dhhs_save <- function(file_path,
   chart_name <- gsub("\\..*", "", basename(file_path))
   chart_ext <- gsub(chart_name, "", basename(file_path))
 
-  all_chart_types <- dhhstheme::all_chart_types
+  all_chart_types <- dhhstheme:::all_chart_types
+
+  message("Exporting plots for the ", ppt_size, " template")
 
   if (type == "all") {
     if (!mute_messages) message("Saving all types in ", file.path(chart_dir, chart_name))
     chart_types <- all_chart_types
   } else {
-    chart_types <- all_chart_types[all_chart_types$type %in% type, ]
+    chart_types <- all_chart_types[
+      all_chart_types$type %in% type & all_chart_types$template %in% ppt_size,
+      ]
   }
 
   if (nrow(chart_types) == 1 & !export_chartdata) {

@@ -20,6 +20,7 @@ mtcars %>%
        caption = "Sources and notes for the chart.")
 
 dhhs_save("data-raw/ouput/base.png", type = "half")
+dhhs_save("data-raw/ouput/base.png", type = "half", ppt_size = "normal169")
 
 
 # Slide 2 ----------------------------------------------------------------------
@@ -169,13 +170,28 @@ dhhs_save("data-raw/ouput/colours2.png", type = "third")
 
 # fill
 mtcars %>%
+  ggplot(aes(factor(cyl), hp)) +
+  geom_col(fill = dhhs_teal) +
+  theme_dhhs(panel_borders = "border",
+             legend = "off") +
+  dhhs_fill_manual(2) +
+  facet_wrap(~factor(am)) +
+  labs(title = "Fill colour bar",
+       subtitle = "y-axis label",
+       y = NULL,
+       x = "x-axis label")
+
+dhhs_save("data-raw/ouput/colours3.png", type = "third")
+
+# Facets
+mtcars %>%
   ggplot(aes(factor(cyl), hp,
              fill = factor(am))) +
   geom_col() +
   theme_dhhs(base_colour = dhhs_purple,
              panel_borders = "border",
              legend = "off") +
-  dhhs_fill_manual(2, faded = TRUE) +
+  dhhs_fill_manual(2) +
   labs(title = "Fill colour bar",
        subtitle = "y-axis label",
        y = NULL,
