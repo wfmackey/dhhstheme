@@ -1,8 +1,8 @@
 #' Convenient functions to set DHHS-appropriate palettes
 #'
 #' @param n Numeric. The number of levels in your colour scale. Minimum value is
-#'   1, maximum is 7. Passed to \code{grattan_pal}; see ?grattan_pal for more
-#'   information.
+#'   1, maximum is 7. Passed to \code{dhhs_pal}; see ?dhhs_pal for more
+#'   information. Set to NULL if you want to provide your own colours with \code{values = c()}.
 #'
 #' @param reverse Logical. FALSE by default. Setting to TRUE reverses the
 #'   standard colour order.
@@ -52,11 +52,20 @@ NULL
 #' @export
 
 
-dhhs_colour_manual <- function(n = 0,
-                                  reverse = FALSE,
-                                  discrete = TRUE,
-                                  faded = FALSE,
-                                  palette = "teal", ...) {
+dhhs_colour_manual <- function(n = NULL,
+                               reverse = FALSE,
+                               discrete = TRUE,
+                               faded = FALSE,
+                               palette = "teal",
+                               ...) {
+
+  if (is.null(n)) {
+    return(
+      ggplot2::scale_colour_manual(...)
+    )
+  }
+
+
   if (discrete) {
     return(
       ggplot2::scale_colour_manual(...,
@@ -79,11 +88,19 @@ dhhs_colour_manual <- function(n = 0,
 #' @import ggplot2
 #' @export
 
-dhhs_fill_manual <- function(n = 0,
+dhhs_fill_manual <- function(n = NULL,
                              reverse = FALSE,
                              discrete = TRUE,
                              faded = FALSE,
-                             palette = "teal", ...) {
+                             palette = "teal",
+                             ...) {
+  if (is.null(n)) {
+    return(
+      ggplot2::scale_fill_manual(...)
+    )
+  }
+
+
   if (discrete) {
     return(
       ggplot2::scale_fill_manual(...,

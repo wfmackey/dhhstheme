@@ -116,6 +116,21 @@ mtcars %>%
 dhhs_save("data-raw/output/colours.png", type = "half")
 
 
+mtcars %>%
+  ggplot(aes(hp, wt,
+             colour = factor(cyl))) +
+  geom_point(size = 6, alpha = .8) +
+  theme_dhhs() +
+  dhhs_colour_manual(values = c(dhhs_teal, dhhs_pink, dhhs_blue)) +
+  labs(title = "A plot with DHHS colours",
+       subtitle = "y-axis label",
+       y = NULL,
+       x = "x-axis label",
+       colour = "Legend title",
+       caption = "Sources and notes.")
+
+
+
 # Slide 8: colours -------------------------------------------------------------
 mtcars %>%
   ggplot(aes(hp, wt,
