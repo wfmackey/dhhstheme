@@ -8,7 +8,6 @@
 #' @param panel_borders One of `"axes"` (default), "border", "none". Sets the border to a darker colour.
 #' @param include_minor_gridlines If "none" (the default), minor gridlines are not included.
 #' Use "x" or "y" to include minor gridlines for x or y axes, or "both" for both axes.
-#' @import ggrepel
 #' @importFrom ggplot2 %+replace%
 #' @export
 
@@ -19,9 +18,6 @@ theme_dhhs <- function(base_size = 14,
                        legend = "right",
                        panel_borders = "axes",
                        include_minor_gridlines = "none") {
-
-  # address global variable warning
-  '%+replace%' <- ggplot2::'%+replace%'
 
   half_line <- base_size / 2
 
