@@ -5,6 +5,8 @@ utils::globalVariables(c("chart_types",
                          "width_cm",
                          "plot_object",
                          "mute_messages",
-                         "dhhs_navy"
+                         "dhhs_navy",
+                         "export_type",
+                         "template"
                          )
                        )

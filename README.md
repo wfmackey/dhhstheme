@@ -357,4 +357,6 @@ save_chartdata("data-raw/owid_plot.xlsx",
 ```
 
 creates an Excel file with a cover page, adds a sheet for `owid_plot`,
-then another for `aus_cases`.
+then another for `aus_cases`:
+
+![](man/figures/dhhs_theme_figures/Slide6.png)

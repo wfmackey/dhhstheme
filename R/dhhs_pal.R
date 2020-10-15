@@ -78,16 +78,16 @@ regular_palette <- function(n) {
   col9 <-  dhhstheme::dhhs_pink4
   col10 <- dhhstheme::dhhs_purple4
 
-  if (n <= 1) palette <- col1
-  if (n <= 2) palette <- c(palette, col2)
-  if (n <= 3) palette <- c(palette, col3)
-  if (n <= 4) palette <- c(palette, col4)
-  if (n <= 5) palette <- c(palette, col5)
-  if (n <= 6) palette <- c(palette, col6)
-  if (n <= 7) palette <- c(palette, col7)
-  if (n <= 8) palette <- c(palette, col8)
-  if (n <= 9) palette <- c(palette, col9)
-  if (n <= 10) palette <- c(palette, col10)
+  if (1 <= n) palette <- col1
+  if (2 <= n) palette <- c(palette, col2)
+  if (3 <= n) palette <- c(palette, col3)
+  if (4 <= n) palette <- c(palette, col4)
+  if (5 <= n) palette <- c(palette, col5)
+  if (6 <= n) palette <- c(palette, col6)
+  if (7 <= n) palette <- c(palette, col7)
+  if (8 <= n) palette <- c(palette, col8)
+  if (9 <= n) palette <- c(palette, col9)
+  if (10 <= n) palette <- c(palette, col10)
 
   palette
 }
@@ -106,16 +106,16 @@ faded_palette <- function(n) {
   col9 <-  dhhstheme::dhhs_pink3
   col10 <- dhhstheme::dhhs_purple3
 
-  if (n <= 1) palette <- col1
-  if (n <= 2) palette <- c(palette, col2)
-  if (n <= 3) palette <- c(palette, col3)
-  if (n <= 4) palette <- c(palette, col4)
-  if (n <= 5) palette <- c(palette, col5)
-  if (n <= 6) palette <- c(palette, col6)
-  if (n <= 7) palette <- c(palette, col7)
-  if (n <= 8) palette <- c(palette, col8)
-  if (n <= 9) palette <- c(palette, col9)
-  if (n <= 10) palette <- c(palette, col10)
+  if (1 <= n) palette <- col1
+  if (2 <= n) palette <- c(palette, col2)
+  if (3 <= n) palette <- c(palette, col3)
+  if (4 <= n) palette <- c(palette, col4)
+  if (5 <= n) palette <- c(palette, col5)
+  if (6 <= n) palette <- c(palette, col6)
+  if (7 <= n) palette <- c(palette, col7)
+  if (8 <= n) palette <- c(palette, col8)
+  if (9 <= n) palette <- c(palette, col9)
+  if (10 <= n) palette <- c(palette, col10)
 
 
   palette

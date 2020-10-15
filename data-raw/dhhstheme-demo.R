@@ -5,6 +5,7 @@ library(patchwork)
 
 dhhs_teal
 dhhs_purple4
+dhhs_purple6
 dhhs_navy1
 
 
