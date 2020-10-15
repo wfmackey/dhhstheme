@@ -45,7 +45,7 @@ dhhs_pal <- function(n = 0, reverse = FALSE, faded = FALSE) {
     warning("Using more than six colours is not recommended.")
   }
 
-  if (n > 10 & n != "2a") {
+  if (n > 10) {
     stop(paste0("You've requested ", n,
                 " colours; dhhs_pal() only supports up to 10."))
   }
@@ -67,142 +67,56 @@ dhhs_pal <- function(n = 0, reverse = FALSE, faded = FALSE) {
 
 regular_palette <- function(n) {
 
-  if (n == 1) {
-    palette <- dhhstheme::dhhs_teal
-  } else if (n == 2) {
-    palette <- c(dhhstheme::dhhs_teal,
-                 dhhstheme::dhhs_pink)
-  } else if (n == 3) {
-    palette <- c(dhhstheme::dhhs_purple,
-                 dhhstheme::dhhs_teal,
-                 dhhstheme::dhhs_pink)
-  } else if (n == 4) {
-    palette <- c(dhhstheme::dhhs_purple,
-                 dhhstheme::dhhs_teal,
-                 dhhstheme::dhhs_pink,
-                 dhhstheme::dhhs_blue)
-  } else if (n == 5) {
-    palette <- c(dhhstheme::dhhs_purple,
-                 dhhstheme::dhhs_teal,
-                 dhhstheme::dhhs_pink,
-                 dhhstheme::dhhs_blue,
-                 dhhstheme::dhhs_navy)
-  } else if (n == 6) {
-    palette <- c(dhhstheme::dhhs_green,
-                 dhhstheme::dhhs_purple,
-                 dhhstheme::dhhs_teal,
-                 dhhstheme::dhhs_pink,
-                 dhhstheme::dhhs_blue,
-                 dhhstheme::dhhs_navy)
-  } else if (n == 7) {
-    palette <- c(dhhstheme::dhhs_green,
-                 dhhstheme::dhhs_purple,
-                 dhhstheme::dhhs_teal,
-                 dhhstheme::dhhs_pink,
-                 dhhstheme::dhhs_blue,
-                 dhhstheme::dhhs_navy,
-                 "black")
-  } else if (n == 8) {
-    palette <- c(dhhstheme::dhhs_green,
-                 dhhstheme::dhhs_purple,
-                 dhhstheme::dhhs_teal,
-                 dhhstheme::dhhs_pink,
-                 dhhstheme::dhhs_blue,
-                 dhhstheme::dhhs_navy,
-                 dhhstheme::dhhs_greyscale,
-                 dhhstheme::dhhs_orange)
-  } else if (n == 9) {
-    palette <- c(dhhstheme::dhhs_green,
-                 dhhstheme::dhhs_purple,
-                 dhhstheme::dhhs_teal,
-                 dhhstheme::dhhs_pink,
-                 dhhstheme::dhhs_blue,
-                 dhhstheme::dhhs_navy,
-                 dhhstheme::dhhs_greyscale,
-                 dhhstheme::dhhs_orange,
-                 dhhstheme::dhhs_greyscale3)
-  } else if (n == 10) {
-    palette <- c(dhhstheme::dhhs_green,
-                 dhhstheme::dhhs_purple,
-                 dhhstheme::dhhs_teal,
-                 dhhstheme::dhhs_pink,
-                 dhhstheme::dhhs_blue,
-                 dhhstheme::dhhs_navy,
-                 dhhstheme::dhhs_greyscale,
-                 dhhstheme::dhhs_orange,
-                 dhhstheme::dhhs_greyscale3,
-                 dhhstheme::dhhs_purple3)
-  }
+  col1 <-  dhhstheme::dhhs_teal6
+  col2 <-  dhhstheme::dhhs_pink6
+  col3 <-  dhhstheme::dhhs_purple6
+  col4 <-  dhhstheme::dhhs_blue6
+  col5 <-  dhhstheme::dhhs_navy6
+  col6 <-  dhhstheme::dhhs_green6
+  col7 <-  dhhstheme::dhhs_orange6
+  col8 <-  dhhstheme::dhhs_teal4
+  col9 <-  dhhstheme::dhhs_pink4
+  col10 <- dhhstheme::dhhs_purple4
+
+  if (n <= 1) palette <- col1
+  if (n <= 2) palette <- c(palette, col2)
+  if (n <= 3) palette <- c(palette, col3)
+  if (n <= 4) palette <- c(palette, col4)
+  if (n <= 5) palette <- c(palette, col5)
+  if (n <= 6) palette <- c(palette, col6)
+  if (n <= 7) palette <- c(palette, col7)
+  if (n <= 8) palette <- c(palette, col8)
+  if (n <= 9) palette <- c(palette, col9)
+  if (n <= 10) palette <- c(palette, col10)
+
   palette
 }
 
 
 faded_palette <- function(n) {
-  if (n == 1) {
-    palette <- dhhstheme::dhhs_teal3
-  } else if (n == 2) {
-    palette <- c(dhhstheme::dhhs_teal3,
-                 dhhstheme::dhhs_pink4)
-  } else if (n == 3) {
-    palette <- c(dhhstheme::dhhs_purple4,
-                 dhhstheme::dhhs_teal3,
-                 dhhstheme::dhhs_pink4)
-  } else if (n == 4) {
-    palette <- c(dhhstheme::dhhs_purple4,
-                 dhhstheme::dhhs_teal3,
-                 dhhstheme::dhhs_pink4,
-                 dhhstheme::dhhs_blue4)
-  } else if (n == 5) {
-    palette <- c(dhhstheme::dhhs_purple4,
-                 dhhstheme::dhhs_teal3,
-                 dhhstheme::dhhs_pink4,
-                 dhhstheme::dhhs_blue4,
-                 dhhstheme::dhhs_navy4)
-  } else if (n == 6) {
-    palette <- c(dhhstheme::dhhs_green4,
-                 dhhstheme::dhhs_purple4,
-                 dhhstheme::dhhs_teal3,
-                 dhhstheme::dhhs_pink4,
-                 dhhstheme::dhhs_blue4,
-                 dhhstheme::dhhs_navy4)
-  } else if (n == 7) {
-    palette <- c(dhhstheme::dhhs_green4,
-                 dhhstheme::dhhs_purple4,
-                 dhhstheme::dhhs_teal3,
-                 dhhstheme::dhhs_pink4,
-                 dhhstheme::dhhs_blue4,
-                 dhhstheme::dhhs_navy4,
-                 "black")
-  } else if (n == 8) {
-    palette <- c(dhhstheme::dhhs_green4,
-                 dhhstheme::dhhs_purple4,
-                 dhhstheme::dhhs_teal3,
-                 dhhstheme::dhhs_pink4,
-                 dhhstheme::dhhs_blue4,
-                 dhhstheme::dhhs_navy4,
-                 dhhstheme::dhhs_greyscale3,
-                 dhhstheme::dhhs_orange4)
-  } else if (n == 9) {
-    palette <- c(dhhstheme::dhhs_green4,
-                 dhhstheme::dhhs_purple4,
-                 dhhstheme::dhhs_teal3,
-                 dhhstheme::dhhs_pink4,
-                 dhhstheme::dhhs_blue4,
-                 dhhstheme::dhhs_navy4,
-                 dhhstheme::dhhs_greyscale3,
-                 dhhstheme::dhhs_orange4,
-                 dhhstheme::dhhs_greyscale4)
-  } else if (n == 10) {
-    palette <- c(dhhstheme::dhhs_green4,
-                 dhhstheme::dhhs_purple4,
-                 dhhstheme::dhhs_teal3,
-                 dhhstheme::dhhs_pink4,
-                 dhhstheme::dhhs_blue4,
-                 dhhstheme::dhhs_navy4,
-                 dhhstheme::dhhs_greyscale4,
-                 dhhstheme::dhhs_orange4,
-                 dhhstheme::dhhs_greyscale3,
-                 dhhstheme::dhhs_purple3)
-  }
+
+  col1 <-  dhhstheme::dhhs_teal4
+  col2 <-  dhhstheme::dhhs_pink4
+  col3 <-  dhhstheme::dhhs_purple4
+  col4 <-  dhhstheme::dhhs_blue4
+  col5 <-  dhhstheme::dhhs_navy4
+  col6 <-  dhhstheme::dhhs_green4
+  col7 <-  dhhstheme::dhhs_orange4
+  col8 <-  dhhstheme::dhhs_teal3
+  col9 <-  dhhstheme::dhhs_pink3
+  col10 <- dhhstheme::dhhs_purple3
+
+  if (n <= 1) palette <- col1
+  if (n <= 2) palette <- c(palette, col2)
+  if (n <= 3) palette <- c(palette, col3)
+  if (n <= 4) palette <- c(palette, col4)
+  if (n <= 5) palette <- c(palette, col5)
+  if (n <= 6) palette <- c(palette, col6)
+  if (n <= 7) palette <- c(palette, col7)
+  if (n <= 8) palette <- c(palette, col8)
+  if (n <= 9) palette <- c(palette, col9)
+  if (n <= 10) palette <- c(palette, col10)
+
+
   palette
 }
