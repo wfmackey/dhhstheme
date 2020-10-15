@@ -35,6 +35,11 @@ all_chart_types <- dplyr::mutate(all_chart_types,
                                  width = width_cm * inch_constant)
 
 
+logo <- magick::image_read("data-raw/dhhs-logo.png")
+
+logogrob <- grid::rasterGrob(logo)
+
 usethis::use_data(all_chart_types,
+                  logogrob,
          internal = TRUE,
          overwrite = TRUE)
