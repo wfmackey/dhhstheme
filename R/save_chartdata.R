@@ -215,8 +215,8 @@ save_chartdata <- function(filename,
                           startRow = 3,
                           startCol = data_columns + 3,
                           file = temp_image_location,
-                          width = dhhstheme::all_chart_types$width_cm[dhhstheme::all_chart_types$type == type][1],
-                          height = dhhstheme::all_chart_types$height_cm[dhhstheme::all_chart_types$type == type][1],
+                          width = all_chart_types$width_cm[all_chart_types$type == type][1],
+                          height = all_chart_types$height_cm[all_chart_types$type == type][1],
                           units = "cm",
                           dpi = 320)
 

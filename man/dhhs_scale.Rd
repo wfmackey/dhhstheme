@@ -6,7 +6,7 @@
 \title{Convenient functions to set DHHS-appropriate palettes}
 \usage{
 dhhs_colour_manual(
-  n = 0,
+  n = NULL,
   reverse = FALSE,
   discrete = TRUE,
   faded = FALSE,
@@ -15,7 +15,7 @@ dhhs_colour_manual(
 )
 
 dhhs_fill_manual(
-  n = 0,
+  n = NULL,
   reverse = FALSE,
   discrete = TRUE,
   faded = FALSE,
@@ -25,8 +25,8 @@ dhhs_fill_manual(
 }
 \arguments{
 \item{n}{Numeric. The number of levels in your colour scale. Minimum value is
-1, maximum is 7. Passed to \code{grattan_pal}; see ?grattan_pal for more
-information.}
+1, maximum is 7. Passed to \code{dhhs_pal}; see ?dhhs_pal for more
+information. Set to NULL if you want to provide your own colours with \code{values = c()}.}
 
 \item{reverse}{Logical. FALSE by default. Setting to TRUE reverses the
 standard colour order.}

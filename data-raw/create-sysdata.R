@@ -35,6 +35,6 @@ all_chart_types <- dplyr::mutate(all_chart_types,
                                  width = width_cm * inch_constant)
 
 
-use_data(all_chart_types,
+usethis::use_data(all_chart_types,
          internal = TRUE,
          overwrite = TRUE)

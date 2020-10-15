@@ -42,8 +42,6 @@ dhhs_save <- function(file_path,
   chart_name <- gsub("\\..*", "", basename(file_path))
   chart_ext <- gsub(chart_name, "", basename(file_path))
 
-  all_chart_types <- dhhstheme:::all_chart_types
-
   if (!mute_messages) message("Exporting plots for the ", ppt_size, " template")
 
   if (type == "all") {
