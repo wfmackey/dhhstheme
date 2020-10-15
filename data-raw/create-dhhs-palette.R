@@ -48,7 +48,25 @@ dhhs_palette <- tribble(
     "Teal1", "#E5F5F7",
     "Teal2", "#CCECF0",
     "Teal3", "#99DAE1",
-    "Teal4", "#66C8D3"
+    "Teal4", "#66C8D3",
+
+    # add 5 and 6 variants
+    "Teal5", "#4dbfcc",
+    "Teal6", "#1aacbd",
+    "Navy5", "#635b7e",
+    "Navy6", "#362c59",
+    "Purple5", "#ab5dba",
+    "Purple6", "#932fa7",
+    "Blue5", "#4d83c2",
+    "Blue6", "#1a60b1",
+    "Green5", "#4da381",
+    "Green6", "#1a885d",
+    "Orange5", "#d6855f",
+    "Orange6", "#cb6231",
+    "Pink5", "#e24d70",
+    "Pink6", "#d91a47",
+    "Greyscale5", "#87898c",
+    "Greyscale6", "#64676b"
   ))
 
 
@@ -103,3 +121,21 @@ save(dhhs_teal1, file = "data/dhhs_teal1.rda")
 save(dhhs_teal2, file = "data/dhhs_teal2.rda")
 save(dhhs_teal3, file = "data/dhhs_teal3.rda")
 save(dhhs_teal4, file = "data/dhhs_teal4.rda")
+
+
+save(dhhs_navy5, file = "data/dhhs_navy5.rda")
+save(dhhs_navy6, file = "data/dhhs_navy6.rda")
+save(dhhs_purple5, file = "data/dhhs_purple5.rda")
+save(dhhs_purple6, file = "data/dhhs_purple6.rda")
+save(dhhs_blue5, file = "data/dhhs_blue5.rda")
+save(dhhs_blue6, file = "data/dhhs_blue6.rda")
+save(dhhs_green5, file = "data/dhhs_green5.rda")
+save(dhhs_green6, file = "data/dhhs_green6.rda")
+save(dhhs_orange5, file = "data/dhhs_orange5.rda")
+save(dhhs_orange6, file = "data/dhhs_orange6.rda")
+save(dhhs_pink5, file = "data/dhhs_pink5.rda")
+save(dhhs_pink6, file = "data/dhhs_pink6.rda")
+save(dhhs_greyscale5, file = "data/dhhs_greyscale5.rda")
+save(dhhs_greyscale6, file = "data/dhhs_greyscale6.rda")
+save(dhhs_teal5, file = "data/dhhs_teal5.rda")
+save(dhhs_teal6, file = "data/dhhs_teal6.rda")

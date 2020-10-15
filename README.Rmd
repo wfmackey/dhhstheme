@@ -32,6 +32,8 @@ It is currently maintained by Will Mackey.
 
 Please file an issue to report bugs or request features at: 
 
+
+
 # The `dhhstheme` package
 
 The `dhhstheme` package is designed to make it easier to generate DHHS-style charts using the `ggplot2` package in R.
@@ -48,7 +50,8 @@ These features are demonstrated below.
 
 
 
-# Set up
+
+# Installation and set up
 
 The package is hosted on Github. To install a package from Github, use the `install_github()` function from the `remotes` package:
 
@@ -70,6 +73,8 @@ The package contains some COVID-19 data from [Our World in Data](https://ourworl
 ```{r data}
 glimpse(owid_sample)
 ```
+
+
 
 
 # Theme
@@ -112,7 +117,7 @@ owid_sample %>%
   filter(country == "Australia") %>% 
   ggplot(aes(date, new_cases)) + 
   geom_col(width = 1,
-           fill = dhhs_pink) +
+           fill = dhhs_navy) +
   theme_dhhs() + 
   dhhs_y_continuous()
 ```
@@ -125,7 +130,7 @@ aus_cases <- owid_sample %>%
   filter(country == "Australia") %>% 
   ggplot(aes(date, new_cases)) + 
   geom_col(width = 1,
-           fill = dhhs_pink) +
+           fill = dhhs_navy) +
   theme_dhhs() +
   dhhs_y_continuous() +
   labs(title = "Australia's second wave",
@@ -138,6 +143,73 @@ aus_cases
 ```
 
 
+# Colours
+
+`dhhstheme` comes with lazily-loaded DHHS hex values.
+After `dhhstheme` has been loaded with `library(dhhstheme)`, use a colour by typing `dhhs_` and the colour name. E.g.:
+
+```{r colour-demo}
+dhhs_pink
+dhhs_navy
+dhhs_blue
+dhhs_blue1
+```
+
+
+The colours are sourced from the _DHHS Visual style guide for staff preparing Word documents and Powerpoint presentations_. They are:
+
+![](man/figures/dhhs_theme_figures/Slide3.png)
+
+Two helper functions are provided to assist in selecting a colour palette for your chart: `dhhs_colour_continuous()` and `dhhs_fill_continuous()`. These can be used to assign colour or fill `geoms` to a DHHS palette:
+
+```{r dhhs_colour1}
+owid_sample %>% 
+  filter(start_of_month,
+         country %in% c("United States",
+                        "Sweden",
+                        "France")) %>% 
+  ggplot(aes(total_cases_per_million, total_deaths_per_million,
+             colour = country)) + 
+  geom_point(size = 4) + 
+  theme_dhhs(legend = "top") +
+  dhhs_y_continuous() +
+  dhhs_x_continuous(labels = scales::comma) + 
+  dhhs_colour_manual(4) +
+  labs(title = "More COVID-19 cases have led to more deaths",
+       subtitle = "COVID-19 deaths per million population",
+       x = "COVID-19 cases per million population",
+       y = NULL,
+       colour = NULL,
+       caption = "Source: Our World in Data (ourworldindata.org/coronavirus).")
+```
+
+Alternatively, you can provide your own colour combinations using a `value` argument:
+
+```{r dhhs_colour2}
+owid_plot <- owid_sample %>% 
+  filter(start_of_month,
+         country %in% c("United States",
+                        "Sweden",
+                        "France")) %>% 
+  ggplot(aes(total_cases_per_million, total_deaths_per_million,
+             colour = country)) + 
+  geom_point(size = 4) + 
+  theme_dhhs(legend = "top", panel_borders = "border") +
+  dhhs_y_continuous() +
+  dhhs_x_continuous(labels = scales::comma) + 
+  dhhs_colour_manual(values = c(dhhs_pink4, dhhs_green4, dhhs_blue4, dhhs_purple4)) +
+  labs(title = "More COVID-19 cases have led to more deaths",
+       subtitle = "COVID-19 deaths per million population",
+       x = "COVID-19 cases per million population",
+       y = NULL,
+       colour = NULL,
+       caption = "Source: Our World in Data (ourworldindata.org/coronavirus).")
+
+owid_plot
+```
+
+
+
 
 
 ## Saving a chart
@@ -145,9 +217,13 @@ aus_cases
 The `dhhs_save` function is a wrapper around `ggsave` with pre-set sizes and features commonly used in exporting charts at DHHS.
 
 ```{r save_col}
-dhhs_save(file_path = "data-raw/aus_cases.png", 
-          plot_object = aus_cases)
+dhhs_save("data-raw/owid_plot.png", 
+          plot_object = owid_plot)
 ```
+
+This is designed to reduce ugly post-production re-sizing:
+
+![](man/figures/dhhs_theme_figures/Slide4.png)
 
 
 By default, this will save a 'whole' sized plot, which will fit the whole **plotting** area of a DHHS Powerpoint slide. Often we will want plots that cover half or a third of a slide, or to just cover the top or bottom. 
@@ -165,16 +241,16 @@ DHHS slide.
 For example: 
 
 ```{r save_col_half}
-dhhs_save(file_path = "data-raw/aus_cases.png", 
-          plot_object = aus_cases,
+dhhs_save("data-raw/owid_plot.png", 
+          plot_object = owid_plot,
           type = "half")
 ```
 
 Choosing 'all' will create a folder called `file_path` (sans extension) and populate it with all possible chart types:
 
 ```{r save_col_short-third}
-dhhs_save(file_path = "data-raw/aus_cases.png", 
-          plot_object = aus_cases,
+dhhs_save("data-raw/owid_plot.png", 
+          plot_object = owid_plot,
           type = "all")
 ```
 
@@ -189,8 +265,8 @@ Additionally, because there are three commonly-used templates with different siz
 These are applied alongside the `type` argument. For example, to save a plot that takes up half the plotting area on the standard 16:9 DHHS template: 
 
 ```{r save_ppt_size}
-dhhs_save(file_path = "data-raw/aus_cases.png", 
-          plot_object = aus_cases,
+dhhs_save("data-raw/owid_plot.png", 
+          plot_object = owid_plot,
           type = "half",
           ppt_size = "normal169")
 ```
@@ -203,8 +279,35 @@ dhhs_save(file_path = "data-raw/aus_cases.png",
 The `dhhs_save` function can create an Excel file that contains your plot and the data used to make it. This can be called using the `export_chartdata` argument: 
 
 ```{r save_chart_data}
-dhhs_save(file_path = "data-raw/aus_cases.png", 
-          plot_object = aus_cases,
+dhhs_save("data-raw/owid_plot.png", 
+          plot_object = owid_plot,
           export_chartdata = TRUE)
 ```
+
+By default, this will export _only_ the variables that are used in the chart.
+To add additional variables, use the `add_vars` argument: 
+
+```{r save_chart_data_add_vars}
+dhhs_save("data-raw/owid_plot.png", 
+          plot_object = owid_plot,
+          export_chartdata = TRUE, 
+          add_vars = "date")
+```
+
+Which creates an Excel file with the variables `total_cases_per_million`, `total_deaths_per_million`, `country` and `date`:
+
+![](man/figures/dhhs_theme_figures/Slide5.png)
+
+
+# Exporting the data of multiple charts
+
+The `save_chartdata` function, which is called by `dhhs_theme` when exporting the Excel file, can be called directly. If you provide it with a list of plots, it will create a single Excel file with a cover page and one sheet per plot. For example:
+
+```{r}
+save_chartdata("data-raw/owid_plot.xlsx", 
+               object = list(owid_plot, aus_cases))
+```
+
+creates an Excel file with a cover page, adds a sheet for `owid_plot`, then another for `aus_cases`. 
+
 

@@ -21,14 +21,10 @@ theme_dhhs <- function(base_size = 14,
 
   half_line <- base_size / 2
 
-  # dark_colour <- dhhstheme::dhhs_greyscale
-  # light_colour <- dhhstheme::dhhs_greyscale1
-  # title_colour <- dhhstheme::dhhs_navy
-
   base_colour_string <- deparse(substitute(base_colour))
 
   title_colour <- get(paste0(base_colour_string))
-  dark_colour <- get(paste0(base_colour_string, "4"))
+  dark_colour <- get(paste0(base_colour_string, "5"))
   light_colour <- get(paste0(base_colour_string, "1"))
 
   # Settings
