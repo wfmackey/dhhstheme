@@ -262,3 +262,114 @@
 
 
 
+#' Hex code for the colour: DHHS Teal5
+#'
+#' "#4DBFCC"
+#'
+"dhhs_teal5"
+
+
+#' Hex code for the colour: DHHS Teal6
+#'
+#' "#1AACBD"
+#'
+"dhhs_teal6"
+
+
+#' Hex code for the colour: DHHS Navy5
+#'
+#' "#635B7E"
+#'
+"dhhs_navy5"
+
+
+#' Hex code for the colour: DHHS Navy6
+#'
+#' "#362C59"
+#'
+"dhhs_navy6"
+
+
+#' Hex code for the colour: DHHS Purple5
+#'
+#' "#AB5DBA"
+#'
+"dhhs_purple5"
+
+
+#' Hex code for the colour: DHHS Purple6
+#'
+#' "#932FA7"
+#'
+"dhhs_purple6"
+
+
+#' Hex code for the colour: DHHS Blue5
+#'
+#' "#4D83C2"
+#'
+"dhhs_blue5"
+
+
+#' Hex code for the colour: DHHS Blue6
+#'
+#' "#1A60B1"
+#'
+"dhhs_blue6"
+
+
+#' Hex code for the colour: DHHS Green5
+#'
+#' "#4DA381"
+#'
+"dhhs_green5"
+
+
+#' Hex code for the colour: DHHS Green6
+#'
+#' "#1A885D"
+#'
+"dhhs_green6"
+
+
+#' Hex code for the colour: DHHS Orange5
+#'
+#' "#D6855F"
+#'
+"dhhs_orange5"
+
+
+#' Hex code for the colour: DHHS Orange6
+#'
+#' "#CB6231"
+#'
+"dhhs_orange6"
+
+
+#' Hex code for the colour: DHHS Pink5
+#'
+#' "#E24D70"
+#'
+"dhhs_pink5"
+
+
+#' Hex code for the colour: DHHS Pink6
+#'
+#' "#D91A47"
+#'
+"dhhs_pink6"
+
+
+#' Hex code for the colour: DHHS Greyscale5
+#'
+#' "#87898C"
+#'
+"dhhs_greyscale5"
+
+
+#' Hex code for the colour: DHHS Greyscale6
+#'
+#' "#64676B"
+#'
+"dhhs_greyscale6"
+
