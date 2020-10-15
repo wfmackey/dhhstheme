@@ -87,14 +87,12 @@ theme_dhhs <- function(base_size = 14,
                                       vjust = 0),
       axis.title.y = ggplot2::element_text(
         angle = 90,
-        margin = ggplot2::margin(r = half_line /
-                          2),
+        margin = ggplot2::margin(r = half_line / 2),
         vjust = 1
       ),
       axis.title.y.right = ggplot2::element_text(
         angle = -90,
-        margin = ggplot2::margin(l = half_line /
-                          2),
+        margin = ggplot2::margin(l = half_line / 2),
         vjust = 0
       ),
       legend.background = ggplot2::element_rect(colour = NA),
