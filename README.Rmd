@@ -128,7 +128,7 @@ aus_cases <- owid_sample %>%
            fill = dhhs_pink) +
   theme_dhhs() +
   dhhs_y_continuous() +
-  labs(title = "Australia's second wave peaked in August",
+  labs(title = "Australia's second wave",
        subtitle = "Daily COVID-19 cases in Australia",
        x = NULL,
        y = NULL,
