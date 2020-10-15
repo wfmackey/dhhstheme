@@ -23,7 +23,7 @@ library(tidyverse)
 <!-- badges: start -->
 <!-- badges: end -->
 
-*This package is under development and subject to change substantially.* 
+**This package is under development and subject to change substantially.** 
 Use for exploration but not yet for production. 
 
 This package is designed to make DHHS-styled charts with the `ggplot2` R package.

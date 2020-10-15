@@ -46,11 +46,9 @@ dhhs_save <- function(file_path,
 
   if (type == "all") {
     if (!mute_messages) message("Saving all types in ", file.path(chart_dir, chart_name))
-    chart_types <- all_chart_types[all_chart_types$template %in% ppt_size]
+    chart_types <- dplyr::filter(all_chart_types, template == ppt_size)
   } else {
-    chart_types <- all_chart_types[
-      all_chart_types$type %in% type & all_chart_types$template %in% ppt_size,
-      ]
+    chart_types <- dplyr::filter(all_chart_types, export_type %in% type, template %in% ppt_size)
   }
 
   if (nrow(chart_types) == 1 & !export_chartdata) {
@@ -66,7 +64,7 @@ dhhs_save <- function(file_path,
     # add multiple paths
     chart_types <- dplyr::mutate(chart_types,
         path = file.path(chart_dir,
-                         paste0(chart_name, "-", type, chart_ext)))
+                         paste0(chart_name, "-", export_type, chart_ext)))
   }
 
 
@@ -101,7 +99,7 @@ dhhs_save <- function(file_path,
     dhhstheme::save_chartdata(
       filename = export_excel_path,
       object = plot_object,
-      type = chart_types$type[1], # just choose first if many
+      type = chart_types$export_type[1], # just choose first if many
       ...
     )
   }

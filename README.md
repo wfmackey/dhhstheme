@@ -7,8 +7,8 @@
 
 <!-- badges: end -->
 
-*This package is under development and subject to change substantially.*
-Use for exploration but not yet for production.
+**This package is under development and subject to change
+substantially.** Use for exploration but not yet for production.
 
 This package is designed to make DHHS-styled charts with the `ggplot2` R
 package.
@@ -195,18 +195,6 @@ dhhs_save(file_path = "data-raw/aus_cases.png",
           type = "all")
 #> Exporting plots for the large template
 #> Saving all types in data-raw/aus_cases
-#>  - saving data-raw/aus_cases/aus_cases-whole.png
-#>  - saving data-raw/aus_cases/aus_cases-half.png
-#>  - saving data-raw/aus_cases/aus_cases-third.png
-#>  - saving data-raw/aus_cases/aus_cases-short.png
-#>  - saving data-raw/aus_cases/aus_cases-short-half.png
-#>  - saving data-raw/aus_cases/aus_cases-short-third.png
-#>  - saving data-raw/aus_cases/aus_cases-whole.png
-#>  - saving data-raw/aus_cases/aus_cases-half.png
-#>  - saving data-raw/aus_cases/aus_cases-third.png
-#>  - saving data-raw/aus_cases/aus_cases-short.png
-#>  - saving data-raw/aus_cases/aus_cases-short-half.png
-#>  - saving data-raw/aus_cases/aus_cases-short-third.png
 #>  - saving data-raw/aus_cases/aus_cases-whole.png
 #>  - saving data-raw/aus_cases/aus_cases-half.png
 #>  - saving data-raw/aus_cases/aus_cases-third.png

@@ -7,7 +7,7 @@ third_scale <- 10/32.74
 short_scale <- 9.5/18.9
 
 all_chart_types <- tidyr::tribble(
-  ~template, ~type, ~height_cm, ~width_cm,
+  ~template, ~export_type, ~height_cm, ~width_cm,
   "large", "whole", 18.9, 32.74,
   "large", "half", 18.9, 32.74 * half_scale,
   "large", "third", 18.9, 32.74 * third_scale,
