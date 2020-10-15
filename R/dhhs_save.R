@@ -46,7 +46,7 @@ dhhs_save <- function(file_path,
 
   if (type == "all") {
     if (!mute_messages) message("Saving all types in ", file.path(chart_dir, chart_name))
-    chart_types <- all_chart_types
+    chart_types <- all_chart_types[all_chart_types$template %in% ppt_size]
   } else {
     chart_types <- all_chart_types[
       all_chart_types$type %in% type & all_chart_types$template %in% ppt_size,
