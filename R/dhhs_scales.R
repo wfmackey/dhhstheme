@@ -77,7 +77,7 @@ dhhs_colour_manual <- function(n = NULL,
   }
 
   if (!discrete) {
-    pal <- dhhs_palette(palette = palette, reverse = reverse)
+    pal <- dhhs_palette(palette_name = palette, reverse = reverse)
     return(ggplot2::scale_color_gradientn(colours = pal(256), ...))
   }
 
@@ -112,7 +112,7 @@ dhhs_fill_manual <- function(n = NULL,
   }
 
   if (!discrete) {
-    pal <- dhhs_palette(palette = palette, reverse = reverse)
+    pal <- dhhs_palette(palette_name = palette, reverse = reverse)
     return(ggplot2::scale_fill_gradientn(colours = pal(256), ...))
   }
 
@@ -120,9 +120,9 @@ dhhs_fill_manual <- function(n = NULL,
 
 
 # # Generates a full palette
-dhhs_palette <- function(palette = "teal", reverse = FALSE, ...) {
+dhhs_palette <- function(palette_name = "teal", reverse = FALSE, ...) {
 
-  pal <- dhhstheme::dhhs_palette_set[[palette]]
+  pal <- dhhstheme::dhhs_palette_set[[palette_name]]
 
   if (reverse) pal <- rev(pal)
 

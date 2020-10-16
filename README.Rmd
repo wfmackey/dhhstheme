@@ -28,10 +28,11 @@ Use for exploration but not yet for production.
 
 This package is designed to make DHHS-styled charts with the `ggplot2` R package.
 
-It is currently maintained by Will Mackey.
+Please file an issue to report bugs or request features at [wfmackey/dhhstheme/issues](https://github.com/wfmackey/dhhstheme/issues).
 
-Please file an issue to report bugs or request features at: 
 
+The package is currently maintained by Will Mackey, Jonathan Nolan and Callum Shaw. 
+It is based on and steals a lot of code from [`grattantheme`](https://github.com/grattan/grattantheme) created by Matt Cowgill and Will Mackey.
 
 
 # The `dhhstheme` package

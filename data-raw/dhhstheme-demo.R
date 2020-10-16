@@ -48,7 +48,7 @@ mtcars %>%
 
 dhhs_save("data-raw/output/consistent2.png", type = "third")
 
-p2 <- mtcars %>%
+p3 <- mtcars %>%
   ggplot(aes(factor(cyl), hp)) +
   geom_col() +
   theme_dhhs() +
@@ -56,7 +56,7 @@ p2 <- mtcars %>%
        subtitle = "y-axis label",
        y = NULL,
        x = "x-axis label")
-p2
+p3
 dhhs_save("data-raw/output/consistent3.png", type = "third")
 
 
@@ -166,50 +166,37 @@ p1
 
 dhhs_save("data-raw/output/colours1.png", type = "third")
 
-# continous
-p3 <- mtcars %>%
-  ggplot(aes(hp, wt,
-             colour = disp)) +
-  geom_point(size = 6) +
-  theme_dhhs(base_colour = dhhs_blue) +
-  dhhs_colour_manual(discrete = FALSE,
-                     palette = "diverging") +
-  labs(title = "Continuous colour scale",
-       subtitle = "y-axis label",
+# faded
+p2 <- mtcars %>%
+  ggplot(aes(disp, hp,
+             colour = factor(cyl))) +
+  geom_point(size = 6, alpha = .9) +
+  theme_dhhs() +
+  dhhs_colour_manual(3,
+                     reverse = TRUE,
+                     faded = TRUE) +
+  labs(title = "Reversed and faded",
+       subtitle = "wow",
        colour = "Legend\ntitle:",
        y = NULL,
        x = "x-axis label")
 
-p3
+p2
 
 dhhs_save("data-raw/output/colours2.png", type = "third")
-
-# fill
-mtcars %>%
-  ggplot(aes(factor(cyl), hp)) +
-  geom_col(fill = dhhs_teal) +
-  theme_dhhs(panel_borders = "border",
-             legend = "off") +
-  dhhs_fill_manual(2) +
-  facet_wrap(~factor(am)) +
-  labs(title = "Fill colour bar",
-       subtitle = "y-axis label",
-       y = NULL,
-       x = "x-axis label")
-
-dhhs_save("data-raw/output/colours3.png", type = "third")
 
 # Facets
 mtcars %>%
   ggplot(aes(factor(cyl), hp,
-             fill = factor(am))) +
+             fill = factor(cyl))) +
   geom_col() +
-  theme_dhhs(base_colour = dhhs_purple,
-             panel_borders = "border",
+  theme_dhhs(panel_borders = "border",
              legend = "off") +
-  dhhs_fill_manual(2) +
+  dhhs_fill_manual(3) +
+  dhhs_y_continuous() +
+  facet_wrap(~factor(am)) +
   labs(title = "Fill colour bar",
-       subtitle = "y-axis label",
+       subtitle = "with facets wow",
        y = NULL,
        x = "x-axis label")
 
