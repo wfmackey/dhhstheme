@@ -240,7 +240,7 @@ owid_sample %>%
   filter(country == "Australia", date > "2020-06-01") %>%
   ggplot(aes(date, new_cases)) +
   geom_line() +
-  theme_dhhs() +
+  theme_dhhs(base_colour = dhhs_teal) +
   dhhs_y_continuous() +
   labs(title = "Australia's second wave",
        subtitle = "Daily COVID-19 cases in Australia",

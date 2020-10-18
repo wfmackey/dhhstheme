@@ -175,12 +175,15 @@ owid_sample %>%
   filter(country == "United States") %>% 
   ggplot(aes(date, new_cases_per_million)) + 
   geom_point() +
+  geom_smooth() +
   theme_dhhs(base_colour = dhhs_teal) +
   dhhs_y_continuous() + 
   labs(title = "United States",
        subtitle = "Daily cases per million population",
        x = NULL,
-       y = NULL)
+       y = NULL,
+       caption = "Note: nonsense smoothing model fitted for demonstration!")
+#> `geom_smooth()` using method = 'loess' and formula 'y ~ x'
 ```
 
 <img src="man/figures/README-theme_line-2.png" width="75%" style="display: block; margin: auto auto auto 0;" />
