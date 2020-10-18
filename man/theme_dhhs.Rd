@@ -16,7 +16,7 @@ theme_dhhs(
 \arguments{
 \item{base_size}{Size for text elements. Defaults to 14.}
 
-\item{base_colour}{Colour scheme for titles and axes. One of "navy" (default), "pink", "blue", "green", "orange".}
+\item{base_colour}{Colour scheme for titles, axes and geoms. One of "navy" (default), "pink", "blue", "green", "orange".}
 
 \item{background}{"white" by default. Set to a different DHHS colour.}
 

@@ -30,8 +30,8 @@ This package is designed to make DHHS-styled charts with the `ggplot2` R package
 
 Please file an issue to report bugs or request features at [wfmackey/dhhstheme/issues](https://github.com/wfmackey/dhhstheme/issues).
 
-
-The package is currently maintained by Will Mackey, Jonathan Nolan and Callum Shaw. 
+The package is currently maintained by Will Mackey, Jonathan Nolan and Callum Shaw.
+Additional contributors or maintainers are **more than welcome**.
 It is based on and steals a lot of code from [`grattantheme`](https://github.com/grattan/grattantheme) created by Matt Cowgill and Will Mackey.
 
 
@@ -72,6 +72,7 @@ The package contains some COVID-19 data from [Our World in Data](https://ourworl
 
 
 ```{r data}
+owid_sample <- owid_sample %>% group_by(country)
 glimpse(owid_sample)
 ```
 
@@ -93,7 +94,7 @@ While some elements -- like the base colour, minor gridlines and panel borders -
 
 ```{r base_col}
 owid_sample %>% 
-  filter(country == "Australia") %>% 
+  filter(country == "Australia", date > "2020-06-01") %>% 
   ggplot(aes(date, new_cases)) + 
   geom_col(width = 1)
 ```
@@ -103,7 +104,7 @@ To add the DHHS theme, add `theme_dhhs`:
 
 ```{r theme_col}
 owid_sample %>% 
-  filter(country == "Australia") %>% 
+  filter(country == "Australia", date > "2020-06-01") %>% 
   ggplot(aes(date, new_cases)) + 
   geom_col(width = 1) +
   theme_dhhs()
@@ -111,27 +112,25 @@ owid_sample %>%
 
 
 
-You can use the pre-set DHHS colours (see next section) to `fill` the plot, and add a DHHS y-axis:
+And add a DHHS y-axis:
 
 ```{r theme_col2}
 owid_sample %>% 
-  filter(country == "Australia") %>% 
+  filter(country == "Australia", date > "2020-06-01") %>% 
   ggplot(aes(date, new_cases)) + 
-  geom_col(width = 1,
-           fill = dhhs_navy) +
+  geom_col() +
   theme_dhhs() + 
   dhhs_y_continuous()
 ```
 
 
-Finally, adding titles and labels:
+Finally, add titles and labels as you normally would:
 
 ```{r theme_col3}
 aus_cases <- owid_sample %>% 
-  filter(country == "Australia") %>% 
+  filter(country == "Australia", date > "2020-06-01") %>% 
   ggplot(aes(date, new_cases)) + 
-  geom_col(width = 1,
-           fill = dhhs_navy) +
+  geom_col() +
   theme_dhhs() +
   dhhs_y_continuous() +
   labs(title = "Australia's second wave",
@@ -142,6 +141,52 @@ aus_cases <- owid_sample %>%
 
 aus_cases
 ```
+
+
+This process works for all kinds of plot `geoms`, and colour arguments to `dhhs_theme` will flow through to `geom` default colours (for lines or point or whatever). Examples below.
+
+```{r theme_line}
+owid_sample %>% 
+  filter(country == "Sweden") %>% 
+  ggplot(aes(date, new_cases_per_million)) + 
+  geom_line() +
+  theme_dhhs() +
+  dhhs_y_continuous() + 
+  labs(title = "Sweden",
+       subtitle = "Daily cases per million population",
+       x = NULL,
+       y = NULL)
+
+
+owid_sample %>% 
+  filter(country == "United States") %>% 
+  ggplot(aes(date, new_cases_per_million)) + 
+  geom_point() +
+  geom_smooth() +
+  theme_dhhs(base_colour = dhhs_teal) +
+  dhhs_y_continuous() + 
+  labs(title = "United States",
+       subtitle = "Daily cases per million population",
+       x = NULL,
+       y = NULL,
+       caption = "Note: nonsense smoothing model fitted for demonstration!")
+
+
+owid_sample %>% 
+  ggplot(aes(total_cases_per_million, total_deaths_per_million,
+             group = country)) + 
+  geom_line(size = 1) +
+  geom_point(data = owid_sample %>% filter(date == max(date)),
+             size = 4) +
+  theme_dhhs(base_colour = dhhs_pink) +
+  dhhs_y_continuous() + 
+  dhhs_x_continuous() + 
+  labs(title = "Cases and deaths per million over time",
+       subtitle = "Total deaths per million",
+       x = "Total cases per million",
+       y = NULL)
+```
+
 
 
 # Colours

@@ -40,7 +40,7 @@ mtcars %>%
   ggplot(aes(factor(cyl), hp)) +
   geom_point(size = 6, alpha = .9) +
   geom_boxplot() +
-  theme_dhhs() +
+  theme_dhhs(base_colour = dhhs_pink) +
   labs(title = "Another title",
        subtitle = "y-axis label",
        y = NULL,
@@ -234,3 +234,16 @@ save_chartdata("data-raw/output/all-chartdata.xlsx",
                cover_title = "This is the title!",
                cover_date = "1920-01-01")
 
+
+# Testing ----------------------------------------------------------------------
+owid_sample %>%
+  filter(country == "Australia", date > "2020-06-01") %>%
+  ggplot(aes(date, new_cases)) +
+  geom_line() +
+  theme_dhhs(base_colour = dhhs_teal) +
+  dhhs_y_continuous() +
+  labs(title = "Australia's second wave",
+       subtitle = "Daily COVID-19 cases in Australia",
+       x = NULL,
+       y = NULL,
+       caption = "Source: Our World in Data (ourworldindata.org/coronavirus).")
