@@ -1,7 +1,7 @@
 #' A ggplot2 theme consistent with DHHS style.
 #' @name theme_dhhs
 #' @param base_size Size for text elements. Defaults to 14.
-#' @param base_colour Colour scheme for titles and axes. One of "navy" (default), "pink", "blue", "green", "orange".
+#' @param base_colour Colour scheme for titles, axes and geoms. One of "navy" (default), "pink", "blue", "green", "orange".
 #' @param background "white" by default. Set to a different DHHS colour.
 #' @param legend "right" by default. Set to "none", "bottom", "left", "right" or "top" as
 #'   desired, or a two element numeric vector such as c(0.9, 0.1).
@@ -224,6 +224,10 @@ theme_dhhs <- function(base_size = 14,
         fill = background))
 
   }
+
+  # Call a function that modifies various geom defaults
+  dhhs_theme_geom_defaults(default_colour = base_colour)
+
 
   ret
 
