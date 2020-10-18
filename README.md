@@ -17,7 +17,8 @@ Please file an issue to report bugs or request features at
 [wfmackey/dhhstheme/issues](https://github.com/wfmackey/dhhstheme/issues).
 
 The package is currently maintained by Will Mackey, Jonathan Nolan and
-Callum Shaw. It is based on and steals a lot of code from
+Callum Shaw. Additional contributors or maintainers are **more than
+welcome**. It is based on and steals a lot of code from
 [`grattantheme`](https://github.com/grattan/grattantheme) created by
 Matt Cowgill and Will Mackey.
 
@@ -62,9 +63,11 @@ Data](https://ourworldindata.org/coronavirus) for demonstrations. This
 is loaded with the package in `owid_sample`:
 
 ``` r
+owid_sample <- owid_sample %>% group_by(country)
 glimpse(owid_sample)
 #> Rows: 1,719
 #> Columns: 12
+#> Groups: country [6]
 #> $ country                  <chr> "Australia", "Australia", "Australia", "Aust…
 #> $ continent                <chr> "Oceania", "Oceania", "Oceania", "Oceania", …
 #> $ date                     <date> 2019-12-31, 2020-01-01, 2020-01-02, 2020-01…
@@ -94,7 +97,7 @@ from within the `dhhs_theme`, the theme maintains a consistent look:
 
 ``` r
 owid_sample %>% 
-  filter(country == "Australia") %>% 
+  filter(country == "Australia", date > "2020-06-01") %>% 
   ggplot(aes(date, new_cases)) + 
   geom_col(width = 1)
 ```
@@ -105,7 +108,7 @@ To add the DHHS theme, add `theme_dhhs`:
 
 ``` r
 owid_sample %>% 
-  filter(country == "Australia") %>% 
+  filter(country == "Australia", date > "2020-06-01") %>% 
   ggplot(aes(date, new_cases)) + 
   geom_col(width = 1) +
   theme_dhhs()
@@ -113,29 +116,26 @@ owid_sample %>%
 
 <img src="man/figures/README-theme_col-1.png" width="75%" style="display: block; margin: auto auto auto 0;" />
 
-You can use the pre-set DHHS colours (see next section) to `fill` the
-plot, and add a DHHS y-axis:
+And add a DHHS y-axis:
 
 ``` r
 owid_sample %>% 
-  filter(country == "Australia") %>% 
+  filter(country == "Australia", date > "2020-06-01") %>% 
   ggplot(aes(date, new_cases)) + 
-  geom_col(width = 1,
-           fill = dhhs_navy) +
+  geom_col() +
   theme_dhhs() + 
   dhhs_y_continuous()
 ```
 
 <img src="man/figures/README-theme_col2-1.png" width="75%" style="display: block; margin: auto auto auto 0;" />
 
-Finally, adding titles and labels:
+Finally, add titles and labels as you normally would:
 
 ``` r
 aus_cases <- owid_sample %>% 
-  filter(country == "Australia") %>% 
+  filter(country == "Australia", date > "2020-06-01") %>% 
   ggplot(aes(date, new_cases)) + 
-  geom_col(width = 1,
-           fill = dhhs_navy) +
+  geom_col() +
   theme_dhhs() +
   dhhs_y_continuous() +
   labs(title = "Australia's second wave",
@@ -148,6 +148,62 @@ aus_cases
 ```
 
 <img src="man/figures/README-theme_col3-1.png" width="75%" style="display: block; margin: auto auto auto 0;" />
+
+This process works for all kinds of plot `geoms`, and colour arguments
+to `dhhs_theme` will flow through to `geom` default colours (for lines
+or point or whatever). Examples below.
+
+``` r
+owid_sample %>% 
+  filter(country == "Sweden") %>% 
+  ggplot(aes(date, new_cases_per_million)) + 
+  geom_line() +
+  theme_dhhs() +
+  dhhs_y_continuous() + 
+  labs(title = "Sweden",
+       subtitle = "Daily cases per million population",
+       x = NULL,
+       y = NULL)
+```
+
+<img src="man/figures/README-theme_line-1.png" width="75%" style="display: block; margin: auto auto auto 0;" />
+
+``` r
+
+
+owid_sample %>% 
+  filter(country == "United States") %>% 
+  ggplot(aes(date, new_cases_per_million)) + 
+  geom_point() +
+  theme_dhhs(base_colour = dhhs_teal) +
+  dhhs_y_continuous() + 
+  labs(title = "United States",
+       subtitle = "Daily cases per million population",
+       x = NULL,
+       y = NULL)
+```
+
+<img src="man/figures/README-theme_line-2.png" width="75%" style="display: block; margin: auto auto auto 0;" />
+
+``` r
+
+
+owid_sample %>% 
+  ggplot(aes(total_cases_per_million, total_deaths_per_million,
+             group = country)) + 
+  geom_line(size = 1) +
+  geom_point(data = owid_sample %>% filter(date == max(date)),
+             size = 4) +
+  theme_dhhs(base_colour = dhhs_pink) +
+  dhhs_y_continuous() + 
+  dhhs_x_continuous() + 
+  labs(title = "Cases and deaths per million over time",
+       subtitle = "Total deaths per million",
+       x = "Total cases per million",
+       y = NULL)
+```
+
+<img src="man/figures/README-theme_line-3.png" width="75%" style="display: block; margin: auto auto auto 0;" />
 
 # Colours
 
@@ -358,6 +414,7 @@ and one sheet per plot. For example:
 ``` r
 save_chartdata("data-raw/owid_plot.xlsx", 
                object = list(owid_plot, aus_cases))
+#> Adding missing grouping variables: `country`
 ```
 
 creates an Excel file with a cover page, adds a sheet for `owid_plot`,

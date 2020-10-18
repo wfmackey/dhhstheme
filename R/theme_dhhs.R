@@ -22,6 +22,8 @@ theme_dhhs <- function(base_size = 14,
   half_line <- base_size / 2
 
   base_colour_string <- deparse(substitute(base_colour))
+  # remove tint if applicable
+  base_colour_string <- extract_base_colour_from_text(base_colour_string)
 
   title_colour <- get(paste0(base_colour_string))
   dark_colour <- get(paste0(base_colour_string, "5"))
@@ -226,7 +228,7 @@ theme_dhhs <- function(base_size = 14,
   }
 
   # Call a function that modifies various geom defaults
-  dhhs_theme_geom_defaults(default_colour = base_colour)
+  dhhs_theme_geom_defaults(default_colour_text = base_colour_string)
 
 
   ret
