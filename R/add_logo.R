@@ -1,4 +1,4 @@
-#' Assemble a chart featuring the Grattan logo and navy line
+#' Assemble a chart featuring the DHHS logo and navy line
 #'
 #' Takes a ggplot2 object and formats it as a presentable slide with DHHS logo.
 #'
@@ -18,7 +18,7 @@
 #'          caption = "My caption") +
 #'     theme_dhhs()
 #'
-#' # Create an image that includes the Grattan logo
+#' # Create an image that includes the DHHS logo
 #'
 #' p_logo <- add_dhhs_logo(p)
 #'

@@ -2,7 +2,7 @@
 % Please edit documentation in R/add_logo.R
 \name{add_dhhs_logo}
 \alias{add_dhhs_logo}
-\title{Assemble a chart featuring the Grattan logo and navy line}
+\title{Assemble a chart featuring the DHHS logo and navy line}
 \usage{
 add_dhhs_logo(plot = last_plot(), type, ppt_size = "large")
 }
@@ -29,7 +29,7 @@ p <- ggplot(mtcars, aes(x = wt, y = mpg)) +
          caption = "My caption") +
     theme_dhhs()
 
-# Create an image that includes the Grattan logo
+# Create an image that includes the DHHS logo
 
 p_logo <- add_dhhs_logo(p)
 
